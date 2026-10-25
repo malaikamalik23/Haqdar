@@ -125,7 +125,7 @@ def load_all_packs(packs_dir=PACKS_DIR) -> list[dict]:
 def pack_to_chunks(pack: dict) -> list[dict]:
     """Split a pack into one chunk per step.
 
-    Chunk format: {pack_id, step_id, source_id, text_ur, text_en, title_ur}
+    Chunk format: {pack_id, step_id, source_id, text_ur, text_en, title_ur, step_keywords}
     (K2 adds 'score' when returning search results.)
     """
     return [
@@ -136,6 +136,7 @@ def pack_to_chunks(pack: dict) -> list[dict]:
             "text_ur": step["text_ur"],
             "text_en": step["text_en"],
             "title_ur": pack["title_ur"],
+            "step_keywords": [str(k) for k in step.get("keywords", [])],
         }
         for step in pack["steps"]
     ]

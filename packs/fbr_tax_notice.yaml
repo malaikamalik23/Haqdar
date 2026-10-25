@@ -1,0 +1,100 @@
+# Pack: Replying to an FBR notice to file an income tax return
+# Sources: FBR IRIS FAQ (e.fbr.gov.pk) and FBR Taxpayer's Facilitation Guide (download1.fbr.gov.pk)
+# REVIEW NOTE: quotes must be checked word-for-word against the PDFs (Ctrl+F).
+# Deliberately NOT included: penalty amounts and income thresholds. The FBR guide found
+# is from 2014 and those numbers have likely changed; do not add them without a current source.
+
+id: fbr_tax_notice
+title_ur: "ایف بی آر کے ٹیکس ریٹرن نوٹس کا جواب"
+title_en: "Replying to an FBR notice to file a tax return"
+
+# If a question contains one of these, this pack is skipped.
+exclude_keywords: [bijli, electricity, meter, gas, sui, pani, water]
+keywords: [fbr, tax, taxes, income, return, notice, iris, filer, filing, commissioner, jawab, reply, declaration, ٹیکس, نوٹس, ریٹرن]
+
+office: "ایف بی آر کا ریجنل ٹیکس آفس (RTO) یا ٹیکس فیسلیٹیشن سینٹر"
+
+documents_needed:
+  - "ایف بی آر کے نوٹس کی کاپی (Copy of the FBR notice)"
+  - "شناختی کارڈ (CNIC)"
+  - "IRIS کا پاس ورڈ اور پن (IRIS password and PIN)"
+  - "آمدنی کے کاغذات، مثلاً تنخواہ کا سرٹیفکیٹ یا بینک اسٹیٹمنٹ (Income records, e.g. salary certificate or bank statement)"
+
+steps:
+  - id: step_1
+    text_ur: "اگر کمشنر کی طرف سے ریٹرن جمع کرانے کا نوٹس ملا ہے تو اسے نظر انداز نہ کریں۔ نوٹس کی تعمیل میں ریٹرن جمع کرانا ضروری ہے۔"
+    text_en: "If you received a notice from the Commissioner to file a return, do not ignore it. The return must be filed in compliance with the notice."
+    source_id: src_notice_compliance
+    keywords: [ignore, nazar, andaz, zaroori, compliance, kya, karun]
+
+  - id: step_2
+    text_ur: "IRIS میں رجسٹریشن کے پہلے حصے کے بعد پاس ورڈ اور پن ملتا ہے۔ کوئی بھی کام شروع کرنے سے پہلے رجسٹریشن کا دوسرا حصہ مکمل کریں۔"
+    text_en: "After the first part of IRIS registration you get a password and PIN. Complete the second part of registration before starting any task."
+    source_id: src_iris_registration
+    keywords: [register, registration, password, pin, account, banana, banaun]
+
+  - id: step_3
+    text_ur: "IRIS میں لاگ اِن کریں اور «Inbox» پر کلک کریں۔ ایف بی آر کے نوٹس یہاں نظر آتے ہیں۔"
+    text_en: "Log in to IRIS and click \"Inbox\". FBR notices appear here."
+    source_id: src_iris_inbox
+    keywords: [inbox, login, dekhun, kahan, view]
+
+  - id: step_4
+    text_ur: "«Declaration» پر کلک کریں اور سامنے والی فہرست میں سے متعلقہ نوٹس منتخب کریں، مثلاً 114(3) نوٹس۔"
+    text_en: "Click \"Declaration\" and select the relevant notice from the central grid, for example a 114(3) notice."
+    source_id: src_iris_select_notice
+    keywords: [declaration, select, "114"]
+
+  - id: step_5
+    text_ur: "نوٹس کھول کر «Reply» بٹن پر کلک کریں اور جواب جمع کروائیں۔"
+    text_en: "Open the notice and click the \"Reply\" button to submit your reply."
+    source_id: src_iris_reply
+    keywords: [reply, jawab, dena, submit, jama]
+
+  - id: step_6
+    text_ur: "اگر آپ خود سے پورے سال کا ریٹرن جمع کرانا چاہتے ہیں تو «Declaration» میں 114(1) منتخب کریں اور بائیں طرف کے مینو سے ڈیٹا درج کریں۔"
+    text_en: "To file a return for the complete year on your own, select 114(1) under \"Declaration\" and enter your data from the menu on the left."
+    source_id: src_iris_voluntary
+    keywords: [file, filing, return, voluntary, khud, apna, karun, kaise]
+
+  - id: step_7
+    text_ur: "مدد کے لیے ایف بی آر کی ٹول فری ہیلپ لائن 0800-00-227 پر کال کریں، helpline@fbr.gov.pk پر ای میل کریں، یا کسی ٹیکس فیسلیٹیشن سینٹر یا ریجنل ٹیکس آفس جائیں۔"
+    text_en: "For help, call FBR's toll-free helpline 0800-00-227, email helpline@fbr.gov.pk, or visit a tax facilitation centre or Regional Tax Office."
+    source_id: src_help
+    keywords: [help, madad, helpline, number, call, office, daftar, contact, rabta]
+
+sources:
+  - id: src_notice_compliance
+    title: "FBR Taxpayer's Facilitation Guide: Obligation to file Income Tax Declarations"
+    url: "https://download1.fbr.gov.pk/Docs/2014417124311383ObligationtofileIncomeTaxDeclaration.pdf"
+    quote: "in compliance to a notice served by the Commissioner"
+
+  - id: src_iris_registration
+    title: "FBR IRIS FAQ"
+    url: "https://e.fbr.gov.pk/SOP/IRIS/Iris_FAQ_Urdu.pdf"
+    quote: "A taxpayer gets Password and PIN when he completes first part of the Registration process."
+
+  - id: src_iris_inbox
+    title: "FBR IRIS FAQ"
+    url: "https://e.fbr.gov.pk/SOP/IRIS/Iris_FAQ_Urdu.pdf"
+    quote: "Click on “Inbox”."
+
+  - id: src_iris_select_notice
+    title: "FBR IRIS FAQ"
+    url: "https://e.fbr.gov.pk/SOP/IRIS/Iris_FAQ_Urdu.pdf"
+    quote: "Notice to file Return of Income for incomplete year"
+
+  - id: src_iris_reply
+    title: "FBR IRIS FAQ"
+    url: "https://e.fbr.gov.pk/SOP/IRIS/Iris_FAQ_Urdu.pdf"
+    quote: "Click on “Reply” Button."
+
+  - id: src_iris_voluntary
+    title: "FBR IRIS FAQ"
+    url: "https://e.fbr.gov.pk/SOP/IRIS/Iris_FAQ_Urdu.pdf"
+    quote: "Return of Income filed voluntarily for complete year"
+
+  - id: src_help
+    title: "FBR Taxpayer's Facilitation Guide: Obligation to file Income Tax Declarations"
+    url: "https://download1.fbr.gov.pk/Docs/2014417124311383ObligationtofileIncomeTaxDeclaration.pdf"
+    quote: "Toll Free Telephone 0800-00-227"
