@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ur" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' http://localhost:8000; base-uri 'none'; form-action 'none'">
+  <meta name="theme-color" content="#0d6b4a">
+  <title>سوال پوچھیں | حقدار</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="site.js"></script>
+</head>
+<body data-mode="ask" data-title-ur="سوال پوچھیں | حقدار" data-title-en="Ask a question | Haqdar">
+  <a class="skip" href="#main"><span data-l="ur">مرکزی مواد پر جائیں</span><span data-l="en">Skip to main content</span></a>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="index.html" aria-label="حقدار Haqdar">
+        <img src="logo.svg" alt="" width="117" height="44">
+        <span class="brand-en" data-l="en">Haqdar</span>
+      </a>
+      <nav class="site-nav" aria-label="Main"><a href="index.html"><span data-l="ur">مرکزی صفحہ</span><span data-l="en">Home</span></a><a href="ask.html" aria-current="page"><span data-l="ur">سوال پوچھیں</span><span data-l="en">Ask a question</span></a><a href="notice.html"><span data-l="ur">نوٹس سمجھیں</span><span data-l="en">Understand a notice</span></a><a href="about.html"><span data-l="ur">ہمارے بارے میں</span><span data-l="en">About</span></a></nav>
+      <div class="lang" role="group" aria-label="Language / زبان">
+        <button id="lang-ur" type="button" lang="ur" aria-pressed="true">اردو</button>
+        <button id="lang-en" type="button" lang="en" aria-pressed="false">English</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="tool">
+    <div class="page-head">
+      <img src="spot-ask.svg" alt="" width="88" height="88">
+      <div>
+        <h1><span data-l="ur">سوال پوچھیں</span><span data-l="en">Ask a question</span></h1>
+        <p><span data-l="ur">اپنا سوال اپنے الفاظ میں لکھیں۔ جواب کے ساتھ ماخذ بھی ملے گا۔</span><span data-l="en">Write your question in your own words. The answer comes with its sources.</span></p>
+      </div>
+    </div>
+
+    <p class="privacy">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z" fill="none" stroke="#0b3d2b" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="#0b3d2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span><span data-l="ur">یہ معلومات ہیں، قانونی مشورہ نہیں۔ اپنا شناختی کارڈ نمبر، فون نمبر یا اکاؤنٹ نمبر نہ لکھیں۔</span><span data-l="en">This is information, not legal advice. Do not type your CNIC, phone or account number.</span></span>
+    </p>
+
+    <ol class="progress" data-i18n-label="progressLabel">
+      <li id="step-1" class="is-current" aria-current="step"><span class="dot" aria-hidden="true">1</span><span data-l="ur">لکھیں</span><span data-l="en">Write</span></li>
+      <li id="step-2"><span class="dot" aria-hidden="true">2</span><span data-l="ur">جانچیں</span><span data-l="en">Review</span></li>
+      <li id="step-3"><span class="dot" aria-hidden="true">3</span><span data-l="ur">جواب</span><span data-l="en">Answer</span></li>
+    </ol>
+
+    <noscript><p class="status error"><span data-l="ur">اس صفحے کے لیے JavaScript ضروری ہے۔</span><span data-l="en">This page needs JavaScript to work.</span></p></noscript>
+    <div id="status" class="status" hidden></div>
+
+    <section id="compose" class="sheet">
+      <label for="q"><span data-l="ur">اپنا سوال لکھیں</span><span data-l="en">Write your question</span></label>
+      <textarea id="q" maxlength="4000" data-i18n-placeholder="placeholderAsk"></textarea>
+      <div class="meta"><span id="count" dir="ltr">0 / 4000</span></div>
+      <p class="hint"><span data-l="ur">یا ان میں سے کوئی آزمائیں:</span><span data-l="en">Or try one of these:</span></p>
+      <div id="chips" class="chips"></div>
+      <button id="btn-review" class="primary" type="button"><span data-l="ur">بھیجنے سے پہلے جانچیں</span><span data-l="en">Review and send</span></button>
+    </section>
+
+    <section id="preview" class="sheet" aria-labelledby="preview-title" hidden>
+      <h2 id="preview-title" tabindex="-1"><span data-l="ur">بھیجنے سے پہلے دیکھ لیں</span><span data-l="en">Review before sending</span></h2>
+      <p><span data-l="ur">صرف یہی متن آپ کے آلے سے نکلے گا۔ کالی پٹیاں وہ ذاتی معلومات ہیں جو چھپا دی گئی ہیں۔</span><span data-l="en">Only this text will leave your device. Black bars mark personal details we hid.</span></p>
+      <div id="preview-text" class="preview-text" dir="auto"></div>
+      <p id="mask-summary" class="mask-summary"></p>
+      <div class="row">
+        <button id="btn-confirm" class="primary" type="button"><span data-l="ur">بھیجیں</span><span data-l="en">Send</span></button>
+        <button id="btn-cancel" class="ghost" type="button"><span data-l="ur">واپس جا کر ترمیم کریں</span><span data-l="en">Go back and edit</span></button>
+      </div>
+    </section>
+
+    <section id="result" class="sheet" role="region" tabindex="-1" data-i18n-label="resultLabel" hidden></section>
+
+    <section class="tips" aria-labelledby="tips-title">
+      <h2 id="tips-title"><span data-l="ur">بہتر جواب کے لیے</span><span data-l="en">For a better answer</span></h2>
+      <ul class="checks">
+        <li><div data-l="ur">بتائیں کہ کیا ہوا اور کس ادارے کا معاملہ ہے۔</div><div data-l="en">Say what happened and which office it involves.</div></li>
+        <li><div data-l="ur">ایک وقت میں ایک سوال پوچھیں۔</div><div data-l="en">Ask one question at a time.</div></li>
+        <li class="caveat"><div data-l="ur">شناختی کارڈ، فون یا اکاؤنٹ نمبر نہ لکھیں۔</div><div data-l="en">Don't type your CNIC, phone or account number.</div></li>
+      </ul>
+    </section>
+  </main>
+  <footer id="site-footer" class="site-footer"></footer>
+  <nav class="tabbar" aria-label="Main"><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span data-l="ur">مرکزی</span><span data-l="en">Home</span></a><a href="ask.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4z"/><path d="M9 10h6"/></svg><span data-l="ur">سوال</span><span data-l="en">Ask</span></a><a href="notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 16h6"/></svg><span data-l="ur">نوٹس</span><span data-l="en">Notice</span></a><a href="about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5h.01"/></svg><span data-l="ur">تعارف</span><span data-l="en">About</span></a></nav>
+  <script src="app.js"></script>
+</body>
+</html>

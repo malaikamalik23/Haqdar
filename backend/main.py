@@ -1,9 +1,16 @@
 from typing import Literal
-
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Haqdar API (mock)")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5500", "http://127.0.0.1:5500"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
+)
 
 SOURCES = [{"id": "demo-src", "url": "https://example.gov.pk", "quote": "demo excerpt"}]
 STEPS = [
