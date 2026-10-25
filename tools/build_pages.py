@@ -393,5 +393,5 @@ PAGES = {
 }
 
 for name, html in PAGES.items():
-    (WEB / name).write_text(html, encoding="utf-8")
+    (WEB / name).write_text(html, encoding="utf-8", newline="\n")
     print("wrote", name, len(html))

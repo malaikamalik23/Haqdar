@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend tests and security scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: backend/requirements-dev.txt
+      - name: Install dependencies
+        run: pip install -r backend/requirements-dev.txt bandit pip-audit
+      - name: Unit tests
+        working-directory: backend
+        run: pytest -q
+      - name: Bandit (static security scan, medium severity and above)
+        run: bandit -r backend --exclude backend/tests,backend/.venv -ll
+      - name: Dependency audit (known vulnerabilities)
+        run: pip-audit -r backend/requirements.txt
+
+  web:
+    name: Web checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: pip install pyyaml pytest
+      - name: Static checks (CSP, ids, file references)
+        run: python tools/check_web.py
+      - name: JavaScript syntax
+        run: |
+          node --check web/app.js
+          node --check web/site.js
+          node --check web/sw.js
+      - name: Pages match the generator
+        run: |
+          python tools/build_pages.py
+          git diff --exit-code -- web
+      - name: Tests for the tools
+        run: python -m pytest tools/tests -q
+
+  packs:
+    name: Procedure packs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pyyaml
+      - name: Validate packs
+        run: python tools/validate_packs.py
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
