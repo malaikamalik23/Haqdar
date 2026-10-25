@@ -4,7 +4,7 @@ import copy
 
 import pytest
 
-from backend.ai import pack_loader as pl
+from ai import pack_loader as pl
 
 
 def good_pack():

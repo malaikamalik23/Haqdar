@@ -9,6 +9,9 @@ id: electricity_bill_dispute
 title_ur: "بجلی کے بل پر اعتراض"
 title_en: "Disputing an electricity bill"
 
+# Optional: extra search words (Roman Urdu / English) to help retrieval match user questions.
+keywords: [bijli, bijlee, bill, meter, tez, zyada, ziada, shikayat, complaint, nepra, wapda, disco, iesco, lesco, mepco, fesco, gepco, pesco, hesco, sepco, qesco, tesco, units, reading]
+
 office: "اپنی بجلی کمپنی (DISCO) کا سب ڈویژن (SDO) دفتر؛ میٹر کے تنازعے کے لیے صوبائی دفتر معائنہ (Electric Inspector / POI)؛ نیپرا (NEPRA)"
 
 documents_needed:
