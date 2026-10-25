@@ -1,0 +1,131 @@
+# Pack: Renewing a CNIC through the NADRA Pak-ID app
+# Source: NADRA "Renew your card" user guidelines (official PDF on nadra.gov.pk)
+# REVIEW NOTE: quotes must be checked word-for-word against the PDF (Ctrl+F).
+# Deliberately NOT included: fees and processing days. They are not in this guide and change often.
+
+id: cnic_renewal
+title_ur: "شناختی کارڈ (CNIC) کی تجدید"
+title_en: "Renewing your CNIC (identity card)"
+
+# If a question contains one of these, this pack is skipped.
+exclude_keywords: [passport, پاسپورٹ, bijli, electricity, gas, tax, fbr]
+keywords: [cnic, nadra, shanakhti, shanakti, card, id, renew, renewal, tajdeed, pakid, pak-id, expire, expired, expiry, شناختی, کارڈ, تجدید, نادرا]
+
+office: "پاک آئی ڈی (Pak-ID) موبائل ایپ، یا قریبی نادرا رجسٹریشن سینٹر (NRC)"
+
+documents_needed:
+  - "موجودہ شناختی کارڈ یا شناختی کارڈ نمبر (Your current CNIC or CNIC number)"
+  - "پاک آئی ڈی ایپ والا اسمارٹ فون (Smartphone with the Pak-ID app)"
+  - "ایپ میں مانگے گئے ضروری کاغذات (Supporting documents the app asks for)"
+
+steps:
+  - id: step_1
+    text_ur: "پاک آئی ڈی ایپ کھولیں اور «ID Documents» میں «ID card» پر ٹیپ کریں۔"
+    text_en: "Open the Pak-ID app and tap \"ID card\" under \"ID Documents\"."
+    source_id: src_start
+    keywords: [kaise, karun, start, shuru, app, online]
+
+  - id: step_2
+    text_ur: "اگر کارڈ آپ کا اپنا ہے تو «Myself» منتخب کریں۔ والدین، بہن بھائی، شریکِ حیات یا بچوں کے لیے «My Blood Relatives» منتخب کریں۔"
+    text_en: "Select \"Myself\" if the card is yours. For parents, siblings, spouse or minors, select \"My Blood Relatives\"."
+    source_id: src_myself
+    keywords: [myself, khud, apna, relative, ammi, abbu, walid, walida, behan, bhai, biwi, shohar, bachon, family]
+
+  - id: step_3
+    text_ur: "رشتہ دار کے لیے درخواست دے رہے ہیں تو ان کا شناختی (سٹیزن) نمبر درج کریں۔"
+    text_en: "If you are applying for a relative, enter their citizen number."
+    source_id: src_relative_number
+    keywords: [relative, ammi, abbu, number, citizen, family]
+
+  - id: step_4
+    text_ur: "«Renew» پر ٹیپ کریں۔ ایپ آپ کو ہر مرحلے میں رہنمائی دے گی۔"
+    text_en: "Tap \"Renew\". The app then guides you step by step."
+    source_id: src_renew_button
+    keywords: [renew, tajdeed, expire, expired, purana]
+
+  - id: step_5
+    text_ur: "تصویر کے لیے روشن جگہ پر رہیں، اور ٹوپی، عینک یا ماسک اتار دیں۔"
+    text_en: "For the photo, stay in a brightly lit place and remove any hat, glasses or mask."
+    source_id: src_photo
+    keywords: [photo, tasveer, picture, selfie, camera, glasses, ainak, mask, topi]
+
+  - id: step_6
+    text_ur: "اگر چہرے کی شناخت کامیاب ہو جائے تو انگلیوں کے نشانات دینا ضروری نہیں۔"
+    text_en: "If facial recognition succeeds, you do not need to give fingerprints."
+    source_id: src_fingerprints
+    keywords: [fingerprint, fingerprints, ungli, ungliyon, nishan, biometric, thumb, angutha]
+
+  - id: step_7
+    text_ur: "ضرورت کے مطابق «Normal»، «Urgent» یا «Executive» کیٹیگری منتخب کریں۔"
+    text_en: "Choose the \"Normal\", \"Urgent\" or \"Executive\" category according to how fast you need it."
+    source_id: src_category
+    keywords: [urgent, normal, executive, jaldi, category, kitne, din, time]
+
+  - id: step_8
+    text_ur: "کارڈ کی ڈیلیوری کا پتہ منتخب کریں، یا وہ نادرا سینٹر چنیں جہاں سے آپ نیا کارڈ لینا چاہتے ہیں۔"
+    text_en: "Choose the delivery address, or pick the NADRA centre where you want to collect your new card."
+    source_id: src_collect
+    keywords: [delivery, address, pata, ghar, collect, center, centre, daftar, office, lena]
+
+  - id: step_9
+    text_ur: "درخواست کے لیے مانگے گئے ضروری کاغذات اپ لوڈ کریں۔"
+    text_en: "Upload the documents needed to support the renewal application."
+    source_id: src_documents
+    keywords: [documents, kagzat, upload, papers]
+
+  - id: step_10
+    text_ur: "درخواست جمع ہونے کے بعد تصدیق اور منظوری ہوگی، پھر آپ کو ادائیگی کے لیے اطلاع دی جائے گی۔"
+    text_en: "After you submit, NADRA verifies and approves the application, then notifies you to make the payment."
+    source_id: src_payment
+    keywords: [payment, fee, fees, paise, ada, kab, approval, verification]
+
+sources:
+  - id: src_start
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "tap on the ID card option under ID Documents to start the process"
+
+  - id: src_myself
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "Select this option if you are filling out the application for yourself"
+
+  - id: src_relative_number
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "The applicant must then enter their citizen number in the provided field"
+
+  - id: src_renew_button
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "After tapping Renew, the app will guide you step by step"
+
+  - id: src_photo
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "Remove any hat, glasses, or mask before performing this step"
+
+  - id: src_fingerprints
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "If facial recognition is successful, the user is not required to provide fingerprints"
+
+  - id: src_category
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "category as per your required processing time"
+
+  - id: src_collect
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "you can choose the NADRA Center where you would like to collect your new card"
+
+  - id: src_documents
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "upload necessary documents to support the renewal application"
+
+  - id: src_payment
+    title: "NADRA: Renew your card, user guidelines"
+    url: "https://www.nadra.gov.pk/assests/downloadsPdf/renewal-guidelines.pdf"
+    quote: "the applicant will be notified to make a payment"
