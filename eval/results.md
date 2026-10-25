@@ -1,39 +1,39 @@
 # Haqdar evaluation results
 
-Abstention threshold: **0.25**  |  questions: 35
+Abstention threshold: **0.25**  |  questions: 43
 
 ## Overall
 
 | Metric | Result |
 |---|---|
-| Retrieval hit rate@4 | 100% (25/25) |
-| Answer accuracy | 100% (25/25) |
-| Citation accuracy (answered) | 100% (25/25) |
+| Retrieval hit rate@4 | 100% (33/33) |
+| Answer accuracy | 100% (33/33) |
+| Citation accuracy (answered) | 100% (33/33) |
 | Correct abstention (out of scope) | 90% (9/10) |
-| False abstention (answerable refused) | 0% (0/25) |
+| False abstention (answerable refused) | 0% (0/33) |
 
 ## By language
 
 | Language | Retrieval hit@4 | Answer accuracy | Correct abstention |
 |---|---|---|---|
-| Urdu | 100% (8/8) | 100% (8/8) | 100% (2/2) |
-| Roman Urdu | 100% (10/10) | 100% (10/10) | 100% (5/5) |
-| English | 100% (7/7) | 100% (7/7) | 67% (2/3) |
+| Urdu | 100% (10/10) | 100% (10/10) | 100% (1/1) |
+| Roman Urdu | 100% (13/13) | 100% (13/13) | 100% (5/5) |
+| English | 100% (10/10) | 100% (10/10) | 75% (3/4) |
 
 ## Threshold sweep
 
 | Threshold | Answer accuracy | Correct abstention | Balanced |
 |---|---|---|---|
-| 0.15 | 100% (25/25) | 60% (6/10) | 0.80 |
-| 0.2 | 100% (25/25) | 80% (8/10) | 0.90 |
-| 0.25 | 100% (25/25) | 90% (9/10) | 0.95 |
-| 0.3 | 92% (23/25) | 90% (9/10) | 0.91 |
-| 0.35 | 84% (21/25) | 100% (10/10) | 0.92 |
+| 0.15 | 100% (33/33) | 70% (7/10) | 0.85 |
+| 0.2 | 100% (33/33) | 90% (9/10) | 0.95 |
+| 0.25 | 100% (33/33) | 90% (9/10) | 0.95 |
+| 0.3 | 94% (31/33) | 90% (9/10) | 0.92 |
+| 0.35 | 85% (28/33) | 100% (10/10) | 0.92 |
 
 ## Confidence calibration
 
-- Mean confidence, correctly answered questions: 0.539
-- Mean confidence, out-of-scope questions: 0.114
+- Mean confidence, correctly answered questions: 0.536
+- Mean confidence, out-of-scope questions: 0.117
 
 ## Every question
 
@@ -64,13 +64,21 @@ Abstention threshold: **0.25**  |  questions: 35
 | answerable | ur | ایف بی آر کا نوٹس ملا ہے، کیا کروں؟ | 0.548 | False | ✅ |
 | answerable | ur | ٹیکس ریٹرن کیسے جمع کرواؤں؟ | 0.444 | False | ✅ |
 | answerable | roman | fbr helpline number kya hai | 0.616 | False | ✅ |
+| answerable | ur | شناختی کارڈ کی تجدید کیسے کروں؟ | 0.584 | False | ✅ |
+| answerable | ur | امی کا شناختی کارڈ کیسے رینیو کروں؟ | 0.448 | False | ✅ |
+| answerable | roman | cnic renew kaise karun | 0.565 | False | ✅ |
+| answerable | roman | mera shanakhti card expire ho gaya hai kya karun | 0.422 | False | ✅ |
+| answerable | roman | naya card nadra office se le sakti hun | 0.314 | False | ✅ |
+| answerable | en | How do I renew my CNIC online? | 0.670 | False | ✅ |
+| answerable | en | Do I need to give fingerprints to renew my ID card? | 0.651 | False | ✅ |
+| answerable | en | When do I pay the fee for CNIC renewal? | 0.543 | False | ✅ |
 | out_of_scope | ur | پاسپورٹ کیسے بنواؤں؟ | 0.121 | True | ✅ |
-| out_of_scope | ur | شناختی کارڈ کی تجدید کیسے کروں؟ | 0.214 | True | ✅ |
 | out_of_scope | roman | passport kaise banwaun | 0.153 | True | ✅ |
+| out_of_scope | en | How do I renew my passport on Pak-ID? _near-scope trap: same app, but passports are not in the CNIC pack_ | 0.144 | True | ✅ |
 | out_of_scope | roman | gas ka bill zyada aya hai _trap: Sui gas is not covered by the electricity pack_ | 0.000 | True | ✅ |
 | out_of_scope | roman | rent agreement kaise banta hai | 0.154 | True | ✅ |
 | out_of_scope | roman | sui gas ka meter tez chal raha hai _held out: gas trap_ | 0.000 | True | ✅ |
-| out_of_scope | roman | pani ka bill ghalat aya hai _held out: water bill_ | 0.000 | True | ✅ |
+| out_of_scope | roman | pani ka bill ghalat aya hai _held out: water bill_ | 0.100 | True | ✅ |
 | out_of_scope | en | What is the weather in Lahore? | 0.118 | True | ✅ |
 | out_of_scope | en | Write me a poem about cricket | 0.075 | True | ✅ |
 | out_of_scope | en | How much income tax do I have to pay on my salary? _near-scope trap: tax rates are not in the FBR pack_ | 0.302 | False | ❌ |

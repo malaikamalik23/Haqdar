@@ -34,11 +34,20 @@ answerable:
   - {q: "ایف بی آر کا نوٹس ملا ہے، کیا کروں؟", lang: ur, expected_pack: fbr_tax_notice, expected_steps: [step_1, step_5, step_3]}
   - {q: "ٹیکس ریٹرن کیسے جمع کرواؤں؟", lang: ur, expected_pack: fbr_tax_notice, expected_steps: [step_6]}
   - {q: "fbr helpline number kya hai", lang: roman, expected_pack: fbr_tax_notice, expected_steps: [step_7]}
+  # --- CNIC renewal pack ---
+  - {q: "شناختی کارڈ کی تجدید کیسے کروں؟", lang: ur, expected_pack: cnic_renewal, expected_steps: [step_1, step_4]}
+  - {q: "امی کا شناختی کارڈ کیسے رینیو کروں؟", lang: ur, expected_pack: cnic_renewal, expected_steps: [step_2, step_3]}
+  - {q: "cnic renew kaise karun", lang: roman, expected_pack: cnic_renewal, expected_steps: [step_1, step_4]}
+  - {q: "mera shanakhti card expire ho gaya hai kya karun", lang: roman, expected_pack: cnic_renewal, expected_steps: [step_1, step_4]}
+  - {q: "naya card nadra office se le sakti hun", lang: roman, expected_pack: cnic_renewal, expected_steps: [step_8]}
+  - {q: "How do I renew my CNIC online?", lang: en, expected_pack: cnic_renewal, expected_steps: [step_1, step_4]}
+  - {q: "Do I need to give fingerprints to renew my ID card?", lang: en, expected_pack: cnic_renewal, expected_steps: [step_6]}
+  - {q: "When do I pay the fee for CNIC renewal?", lang: en, expected_pack: cnic_renewal, expected_steps: [step_10]}
 
 out_of_scope:
   - {q: "پاسپورٹ کیسے بنواؤں؟", lang: ur}
-  - {q: "شناختی کارڈ کی تجدید کیسے کروں؟", lang: ur}
   - {q: "passport kaise banwaun", lang: roman}
+  - {q: "How do I renew my passport on Pak-ID?", lang: en, note: "near-scope trap: same app, but passports are not in the CNIC pack"}
   - {q: "gas ka bill zyada aya hai", lang: roman, note: "trap: Sui gas is not covered by the electricity pack"}
   - {q: "rent agreement kaise banta hai", lang: roman}
   - {q: "sui gas ka meter tez chal raha hai", lang: roman, note: "held out: gas trap", held_out: true}

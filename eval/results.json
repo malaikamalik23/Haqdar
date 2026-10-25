@@ -252,21 +252,92 @@
       "confidence": 0.6156
     },
     {
+      "q": "شناختی کارڈ کی تجدید کیسے کروں؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5844
+    },
+    {
+      "q": "امی کا شناختی کارڈ کیسے رینیو کروں؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.4484
+    },
+    {
+      "q": "cnic renew kaise karun",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5651
+    },
+    {
+      "q": "mera shanakhti card expire ho gaya hai kya karun",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.4225
+    },
+    {
+      "q": "naya card nadra office se le sakti hun",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.3136
+    },
+    {
+      "q": "How do I renew my CNIC online?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6703
+    },
+    {
+      "q": "Do I need to give fingerprints to renew my ID card?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6512
+    },
+    {
+      "q": "When do I pay the fee for CNIC renewal?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5434
+    },
+    {
       "q": "پاسپورٹ کیسے بنواؤں؟",
       "lang": "ur",
       "kind": "out_of_scope",
       "abstained": true,
       "correct": true,
       "confidence": 0.1209,
-      "note": ""
-    },
-    {
-      "q": "شناختی کارڈ کی تجدید کیسے کروں؟",
-      "lang": "ur",
-      "kind": "out_of_scope",
-      "abstained": true,
-      "correct": true,
-      "confidence": 0.2141,
       "note": ""
     },
     {
@@ -277,6 +348,15 @@
       "correct": true,
       "confidence": 0.1529,
       "note": ""
+    },
+    {
+      "q": "How do I renew my passport on Pak-ID?",
+      "lang": "en",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.1442,
+      "note": "near-scope trap: same app, but passports are not in the CNIC pack"
     },
     {
       "q": "gas ka bill zyada aya hai",
@@ -311,7 +391,7 @@
       "kind": "out_of_scope",
       "abstained": true,
       "correct": true,
-      "confidence": 0.0,
+      "confidence": 0.0999,
       "note": "held out: water bill"
     },
     {
