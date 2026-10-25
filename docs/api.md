@@ -57,8 +57,21 @@ sources:
     url: "https://..."
     quote: "short exact excerpt"
 ```
+## Languages (Urdu and English)
 
-## Rules
-- Documents are never stored and never logged.
-- Every step must cite a source_id that exists in `sources`.
-- Use fake data only when testing.
+Requests to `/ask`, `/analyze` and `/letter` carry an optional `lang` field: `"ur"` (default) or `"en"`. Any other value is rejected with a 422 error.
+
+English fields are optional additions. Urdu fields are unchanged and always present.
+
+| Endpoint | English fields |
+|---|---|
+| `/ask` | `answer_en`, and `text_en` on each step |
+| `/analyze` | `explanation_en`, and `text_en` on each step |
+| `/procedures` | `title_en` |
+| `/letter` | `letter_text` is returned in the requested `lang` |
+
+Rules:
+- Return the language the request asked for. When a pack has no English text for a step, omit `text_en`; the web app then shows the Urdu text with a note.
+- Source quotes stay in the original language of the official source.
+- Verdict reasons from the notice check are currently English only.
+- `security.payload.build_payload(redacted_text, lang)` whitelists `lang` to `"ur"` or `"en"` before it reaches any LLM.

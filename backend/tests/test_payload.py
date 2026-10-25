@@ -44,3 +44,9 @@ def test_payload_accepts_redacted_text_and_keeps_amounts():
     payload = build_payload(text)
     assert "35202" not in payload["document"]
     assert "5000" in payload["document"]
+
+def test_payload_carries_a_safe_language():
+    assert build_payload("hello", "en")["language"] == "en"
+    assert build_payload("hello", "ur")["language"] == "ur"
+    assert build_payload("hello", "../etc")["language"] == "ur"
+    assert build_payload("hello")["language"] == "ur"
