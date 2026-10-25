@@ -182,12 +182,82 @@
       "confidence": 0.8101
     },
     {
+      "q": "How do I file my income tax return?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6072
+    },
+    {
+      "q": "I got a notice from FBR, how do I reply to it?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6169
+    },
+    {
+      "q": "FBR ka notice aya hai jawab kaise dun",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.3867
+    },
+    {
+      "q": "iris mein notice kahan dekhun",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.4919
+    },
+    {
+      "q": "ایف بی آر کا نوٹس ملا ہے، کیا کروں؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5478
+    },
+    {
+      "q": "ٹیکس ریٹرن کیسے جمع کرواؤں؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.4435
+    },
+    {
+      "q": "fbr helpline number kya hai",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6156
+    },
+    {
       "q": "پاسپورٹ کیسے بنواؤں؟",
       "lang": "ur",
       "kind": "out_of_scope",
       "abstained": true,
       "correct": true,
-      "confidence": 0.0508,
+      "confidence": 0.1209,
       "note": ""
     },
     {
@@ -196,7 +266,7 @@
       "kind": "out_of_scope",
       "abstained": true,
       "correct": true,
-      "confidence": 0.1407,
+      "confidence": 0.2141,
       "note": ""
     },
     {
@@ -205,7 +275,7 @@
       "kind": "out_of_scope",
       "abstained": true,
       "correct": true,
-      "confidence": 0.0665,
+      "confidence": 0.1529,
       "note": ""
     },
     {
@@ -223,7 +293,7 @@
       "kind": "out_of_scope",
       "abstained": true,
       "correct": true,
-      "confidence": 0.1349,
+      "confidence": 0.1542,
       "note": ""
     },
     {
@@ -254,15 +324,6 @@
       "note": ""
     },
     {
-      "q": "How do I file my income tax return?",
-      "lang": "en",
-      "kind": "out_of_scope",
-      "abstained": true,
-      "correct": true,
-      "confidence": 0.1685,
-      "note": "move to answerable once the FBR pack exists"
-    },
-    {
       "q": "Write me a poem about cricket",
       "lang": "en",
       "kind": "out_of_scope",
@@ -270,6 +331,15 @@
       "correct": true,
       "confidence": 0.075,
       "note": ""
+    },
+    {
+      "q": "How much income tax do I have to pay on my salary?",
+      "lang": "en",
+      "kind": "out_of_scope",
+      "abstained": false,
+      "correct": false,
+      "confidence": 0.3019,
+      "note": "near-scope trap: tax rates are not in the FBR pack"
     }
   ]
 }

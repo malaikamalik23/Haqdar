@@ -26,6 +26,14 @@ answerable:
   - {q: "Will I get credit if my meter was faster than allowed?", lang: en, expected_pack: electricity_bill_dispute, expected_steps: [step_5]}
   - {q: "Can the company remove my meter before the inspector checks it?", lang: en, expected_pack: electricity_bill_dispute, expected_steps: [step_6]}
   - {q: "Do I have to keep paying bills while my complaint is with NEPRA?", lang: en, expected_pack: electricity_bill_dispute, expected_steps: [step_8]}
+  # --- FBR tax notice pack ---
+  - {q: "How do I file my income tax return?", lang: en, expected_pack: fbr_tax_notice, expected_steps: [step_6]}
+  - {q: "I got a notice from FBR, how do I reply to it?", lang: en, expected_pack: fbr_tax_notice, expected_steps: [step_5, step_3, step_1]}
+  - {q: "FBR ka notice aya hai jawab kaise dun", lang: roman, expected_pack: fbr_tax_notice, expected_steps: [step_5, step_3, step_1]}
+  - {q: "iris mein notice kahan dekhun", lang: roman, expected_pack: fbr_tax_notice, expected_steps: [step_3]}
+  - {q: "ایف بی آر کا نوٹس ملا ہے، کیا کروں؟", lang: ur, expected_pack: fbr_tax_notice, expected_steps: [step_1, step_5, step_3]}
+  - {q: "ٹیکس ریٹرن کیسے جمع کرواؤں؟", lang: ur, expected_pack: fbr_tax_notice, expected_steps: [step_6]}
+  - {q: "fbr helpline number kya hai", lang: roman, expected_pack: fbr_tax_notice, expected_steps: [step_7]}
 
 out_of_scope:
   - {q: "پاسپورٹ کیسے بنواؤں؟", lang: ur}
@@ -36,5 +44,5 @@ out_of_scope:
   - {q: "sui gas ka meter tez chal raha hai", lang: roman, note: "held out: gas trap", held_out: true}
   - {q: "pani ka bill ghalat aya hai", lang: roman, note: "held out: water bill", held_out: true}
   - {q: "What is the weather in Lahore?", lang: en}
-  - {q: "How do I file my income tax return?", lang: en, note: "move to answerable once the FBR pack exists"}
   - {q: "Write me a poem about cricket", lang: en}
+  - {q: "How much income tax do I have to pay on my salary?", lang: en, note: "near-scope trap: tax rates are not in the FBR pack"}
