@@ -81,6 +81,20 @@ def test_empty_query_returns_nothing(retriever):
     assert retriever.search("   ") == []
 
 
+def test_step_keywords_help_matching():
+    chunks = make_chunks()
+    chunks[0]["step_keywords"] = ["akhri", "tareekh"]
+    r = retrieval.Retriever(chunks, FakeEmbedder())
+    assert r.search("akhri tareekh", k=1)[0]["step_id"] == "s1"
+
+
+def test_exclude_keywords_skip_pack():
+    chunks = [{**c, "exclude_keywords": ["gas", "sui"]} for c in make_chunks()]
+    r = retrieval.Retriever(chunks, FakeEmbedder())
+    assert r.search("gas ka bill zyada", k=4) == []
+    assert r.search("bill zyada", k=4) != []
+
+
 def test_build_from_real_packs():
     r = retrieval.build_retriever(embedder=FakeEmbedder())
     assert len(r.chunks) > 0

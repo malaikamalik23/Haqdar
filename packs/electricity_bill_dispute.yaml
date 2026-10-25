@@ -10,6 +10,8 @@ title_ur: "بجلی کے بل پر اعتراض"
 title_en: "Disputing an electricity bill"
 
 # Optional: extra search words (Roman Urdu / English) to help retrieval match user questions.
+# Optional: if a question contains one of these, this pack is skipped (other utilities / services).
+exclude_keywords: [gas, sui, sngpl, ssgc, pani, water, ptcl, telephone, internet]
 keywords: [bijli, bijlee, bill, meter, tez, zyada, ziada, shikayat, complaint, nepra, wapda, disco, iesco, lesco, mepco, fesco, gepco, pesco, hesco, sepco, qesco, tesco, units, reading]
 
 office: "اپنی بجلی کمپنی (DISCO) کا سب ڈویژن (SDO) دفتر؛ میٹر کے تنازعے کے لیے صوبائی دفتر معائنہ (Electric Inspector / POI)؛ نیپرا (NEPRA)"
@@ -25,41 +27,49 @@ steps:
     text_ur: "اپنا بل غور سے دیکھیں: بل جاری ہونے کی تاریخ سے 15 دن کے اندر ادائیگی کی آخری تاریخ ہوتی ہے۔"
     text_en: "Check your bill: the due date is within 15 days of the bill's issue date."
     source_id: src_due_date
+    keywords: [last, date, akhri, tareekh, due, kab, jama]
 
   - id: step_2
     text_ur: "بل پر شکایت کا رابطہ نمبر اور اپنے سب ڈویژن، نیپرا اور صوبائی دفتر معائنہ کے پتے درج ہوتے ہیں۔ شکایت کے لیے یہی استعمال کریں۔"
     text_en: "Your bill shows a complaint contact number and the addresses of your sub-division, NEPRA and the Provincial Office of Inspection. Use these to complain."
     source_id: src_bill_contacts
+    keywords: [complaint, number, shikayat, rabta, address, pata, kahan]
 
   - id: step_3
     text_ur: "اگر آپ کو لگتا ہے کہ میٹر تیز چل رہا ہے تو اپنی بجلی کمپنی سے میٹر چیک کروانے کی درخواست دیں۔ کمپنی میٹر چیلنج فیس کا ڈیمانڈ نوٹس جاری کرے گی۔"
     text_en: "If you think your meter is running fast, ask your DISCO to check it. The DISCO will issue a demand notice for the meter challenge fee."
     source_id: src_meter_challenge
+    keywords: [tez, check, challenge, fee, fees, kharab, karwana, karwane]
 
   - id: step_4
     text_ur: "فیس ادا ہونے کے بعد کمپنی سات ورکنگ دنوں کے اندر میٹر کی درستگی چیک کرے گی۔"
     text_en: "After the fee is paid, the DISCO checks the meter's accuracy within seven working days."
     source_id: src_meter_7_days
+    keywords: [kitne, din, saat, working, days, check, karwane]
 
   - id: step_5
     text_ur: "اگر میٹر حد سے زیادہ تیز نکلے تو کمپنی اپنے خرچ پر میٹر بدلے گی اور پچھلے دو بلنگ سائیکلز تک کے اضافی یونٹس کا کریڈٹ دے گی۔"
     text_en: "If the meter is found fast beyond limits, the DISCO replaces it at its own cost and credits the excess units for up to two previous billing cycles."
     source_id: src_meter_credit
+    keywords: [credit, wapas, refund, paise, units, badal]
 
   - id: step_6
     text_ur: "آپ صوبائی دفتر معائنہ (Electric Inspector / POI) سے بھی میٹر چیک کروا سکتے ہیں۔ اگر آپ کمپنی کو تحریری طور پر بتا دیں تو کمپنی ٹیسٹ ہونے تک میٹر نہیں اتار سکتی۔"
     text_en: "You can also ask the Electric Inspector / Provincial Office of Inspection to check the meter. If you tell the DISCO in writing, it may not remove the meter until the test is done."
     source_id: src_poi_no_removal
+    keywords: [inspector, poi, utar, hata, remove]
 
   - id: step_7
     text_ur: "صوبائی دفتر معائنہ درخواست ملنے کے ایک ماہ کے اندر میٹر کی درستگی چیک کرے گا۔"
     text_en: "The Provincial Office of Inspection checks the meter's accuracy within one month of the request."
     source_id: src_poi_one_month
+    keywords: [inspector, poi, mahina, kitne, din]
 
   - id: step_8
     text_ur: "غلط بلنگ کے خلاف نیپرا میں شکایت درج کروائی جا سکتی ہے، لیکن شکایت کے دوران موجودہ بل باقاعدگی سے ادا کرتے رہیں۔"
     text_en: "You can complain to NEPRA about wrong billing, but keep paying your current bills regularly while the complaint is pending."
     source_id: src_keep_paying
+    keywords: [nepra, shikayat, ada, paying, jama, dauran]
 
 sources:
   - id: src_due_date

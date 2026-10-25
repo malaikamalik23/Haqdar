@@ -9,6 +9,9 @@ How it works (hybrid search):
      pack's optional `keywords` list. This helps Roman Urdu ("meter tez chal raha"),
      which multilingual models handle poorly.
   final score = SEMANTIC_WEIGHT * semantic + KEYWORD_WEIGHT * keyword   (0..1)
+  3. Scope guard: a pack can list `exclude_keywords` (e.g. "gas", "sui" for the electricity
+     pack). If the question contains one, that pack's chunks are skipped, so a gas-bill
+     question is not answered with electricity steps.
 
 Public contract (docs/api.md):
   search(query: str, k: int = 4) -> list of {pack_id, step_id, source_id, text_ur, score}
@@ -79,9 +82,10 @@ class Retriever:
         self.chunks = chunks
         self.embedder = embedder
         self.chunk_tokens = [
-            tokenize(_chunk_index_text(c) + " " + " ".join(c.get("keywords", [])))
+            tokenize(" ".join([_chunk_index_text(c), *c.get("keywords", []), *c.get("step_keywords", [])]))
             for c in chunks
         ]
+        self.chunk_excludes = [tokenize(" ".join(c.get("exclude_keywords", []))) for c in chunks]
         vecs = embedder.encode([_chunk_index_text(c) for c in chunks])
         vecs = _normalize(vecs)
         self.index = faiss.IndexFlatIP(vecs.shape[1])  # inner product on unit vectors = cosine
@@ -98,7 +102,7 @@ class Retriever:
         q_tokens = tokenize(query)
         results = []
         for sim, idx in zip(sims[0], ids[0]):
-            if idx < 0:
+            if idx < 0 or (self.chunk_excludes[idx] & q_tokens):
                 continue
             semantic = max(0.0, float(sim))  # cosine can be negative; clamp to 0
             kw = keyword_score(q_tokens, self.chunk_tokens[idx])
@@ -129,8 +133,10 @@ def build_retriever(packs_dir=pack_loader.PACKS_DIR, embedder=None) -> Retriever
     chunks = []
     for pack in pack_loader.load_all_packs(packs_dir):
         keywords = [str(k) for k in pack.get("keywords", [])]
+        excludes = [str(k) for k in pack.get("exclude_keywords", [])]
         for chunk in pack_loader.pack_to_chunks(pack):
             chunk["keywords"] = keywords
+            chunk["exclude_keywords"] = excludes
             chunks.append(chunk)
     return Retriever(chunks, embedder or SentenceTransformerEmbedder())
 
