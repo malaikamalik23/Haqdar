@@ -1,0 +1,275 @@
+{
+  "threshold": 0.25,
+  "rows": [
+    {
+      "q": "بل جمع کرانے کی آخری تاریخ کیا ہوتی ہے؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6004
+    },
+    {
+      "q": "میرا میٹر تیز چل رہا ہے، کیا کروں؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5454
+    },
+    {
+      "q": "میٹر چیک ہونے میں کتنے دن لگتے ہیں؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5794
+    },
+    {
+      "q": "اگر میٹر تیز نکلا تو کیا اضافی یونٹس واپس ملیں گے؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5945
+    },
+    {
+      "q": "بجلی کے بل کی شکایت کہاں کروں؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6814
+    },
+    {
+      "q": "شکایت کے دوران کیا مجھے بل ادا کرنا ہوگا؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5383
+    },
+    {
+      "q": "bill ki last date kya hoti hai",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.492
+    },
+    {
+      "q": "meter tez chal raha hai kya karun",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.28
+    },
+    {
+      "q": "meter check karwane mein kitne din lagte hain",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.3046
+    },
+    {
+      "q": "nepra mein bijli bill ki shikayat kaise karun",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.3145
+    },
+    {
+      "q": "ziada bill aya hai complaint number kahan milega",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6015
+    },
+    {
+      "q": "bijli ka meter kharab lagta hai kahan shikayat karun",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.2767
+    },
+    {
+      "q": "inspector meter kab tak check karega",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5896
+    },
+    {
+      "q": "What is the due date for my electricity bill?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.7597
+    },
+    {
+      "q": "My electricity meter is running fast, what should I do?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5846
+    },
+    {
+      "q": "Will I get credit if my meter was faster than allowed?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5307
+    },
+    {
+      "q": "Can the company remove my meter before the inspector checks it?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6852
+    },
+    {
+      "q": "Do I have to keep paying bills while my complaint is with NEPRA?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.8101
+    },
+    {
+      "q": "پاسپورٹ کیسے بنواؤں؟",
+      "lang": "ur",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.0508,
+      "note": ""
+    },
+    {
+      "q": "شناختی کارڈ کی تجدید کیسے کروں؟",
+      "lang": "ur",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.1407,
+      "note": ""
+    },
+    {
+      "q": "passport kaise banwaun",
+      "lang": "roman",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.0665,
+      "note": ""
+    },
+    {
+      "q": "gas ka bill zyada aya hai",
+      "lang": "roman",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.0,
+      "note": "trap: Sui gas is not covered by the electricity pack"
+    },
+    {
+      "q": "rent agreement kaise banta hai",
+      "lang": "roman",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.1349,
+      "note": ""
+    },
+    {
+      "q": "sui gas ka meter tez chal raha hai",
+      "lang": "roman",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.0,
+      "note": "held out: gas trap"
+    },
+    {
+      "q": "pani ka bill ghalat aya hai",
+      "lang": "roman",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.0,
+      "note": "held out: water bill"
+    },
+    {
+      "q": "What is the weather in Lahore?",
+      "lang": "en",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.1176,
+      "note": ""
+    },
+    {
+      "q": "How do I file my income tax return?",
+      "lang": "en",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.1685,
+      "note": "move to answerable once the FBR pack exists"
+    },
+    {
+      "q": "Write me a poem about cricket",
+      "lang": "en",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.075,
+      "note": ""
+    }
+  ]
+}
