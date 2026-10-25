@@ -1,0 +1,46 @@
+# Small labelled set for the K5 scam-language classifier (owner: Malaika Khan).
+# All examples are SYNTHETIC, written by the team for this prototype, with fake
+# names and numbers. label: 1 = scam / pressure language, 0 = normal official-style text.
+# Languages: en, roman (Roman Urdu), ur (Urdu script).
+
+- {text: "URGENT: your electricity will be disconnected today. Pay Rs 4500 immediately via Easypaisa to avoid action.", label: 1, lang: en}
+- {text: "Final warning! Your tax account is blocked. Send payment within 2 hours or police will arrest you.", label: 1, lang: en}
+- {text: "Congratulations! You have won a prize of Rs 50,000. Share your CNIC and OTP to claim now.", label: 1, lang: en}
+- {text: "Your bank account will be suspended. Click the link and enter your PIN to verify immediately.", label: 1, lang: en}
+- {text: "Pay the penalty now through JazzCash or legal case will be filed against you today.", label: 1, lang: en}
+- {text: "Last chance: your connection will be cut in 1 hour. Call this number and pay the agent directly.", label: 1, lang: en}
+- {text: "Act now! Refund available only today. Send your card number to receive the money.", label: 1, lang: en}
+- {text: "Your SIM will be blocked within 24 hours. Reply with the verification code to keep it active.", label: 1, lang: en}
+- {text: "fori tor par 5000 rupay easypaisa karein warna aaj bijli kaat di jayegi", label: 1, lang: roman}
+- {text: "aap ka account band ho jayega, abhi apna pin code aur otp bhejein", label: 1, lang: roman}
+- {text: "mubarak ho aap ka inaam nikla hai, cnic number aur code bhej kar 25000 hasil karein", label: 1, lang: roman}
+- {text: "aakhri warning, 2 ghante mein payment karein warna police karwai hogi", label: 1, lang: roman}
+- {text: "jaldi karein, aap par jurmana hai, jazzcash par paise bhejein warna case darj hoga", label: 1, lang: roman}
+- {text: "aap ki sim band hone wali hai, code reply karein foran", label: 1, lang: roman}
+- {text: "fori ada karein warna aap ka naam blacklist mein daal diya jayega", label: 1, lang: roman}
+- {text: "فوری طور پر ادائیگی کریں ورنہ آج آپ کی بجلی کاٹ دی جائے گی۔ ایزی پیسہ پر رقم بھیجیں۔", label: 1, lang: ur}
+- {text: "آخری وارننگ! دو گھنٹے میں جرمانہ ادا کریں ورنہ پولیس کارروائی ہوگی۔", label: 1, lang: ur}
+- {text: "مبارک ہو! آپ کا انعام نکلا ہے۔ اپنا شناختی کارڈ نمبر اور کوڈ بھیجیں۔", label: 1, lang: ur}
+- {text: "آپ کا اکاؤنٹ بند ہو جائے گا، ابھی اپنا پن کوڈ بھیجیں۔", label: 1, lang: ur}
+- {text: "جلدی کریں، آپ کے خلاف مقدمہ درج ہونے والا ہے، فوراً رقم جمع کروائیں۔", label: 1, lang: ur}
+
+- {text: "Your electricity bill for October is Rs 3,200. The due date is 20 November. Pay at any bank or online banking.", label: 0, lang: en}
+- {text: "This notice concerns your income tax return for tax year 2025. Please file your return by the date shown.", label: 0, lang: en}
+- {text: "To dispute this bill, contact your sub-division office with a copy of the bill and your reference number.", label: 0, lang: en}
+- {text: "Your meter reading has been recorded. If you think it is incorrect, you may request a meter check.", label: 0, lang: en}
+- {text: "Please visit the nearest office with your original documents during working hours.", label: 0, lang: en}
+- {text: "A late payment surcharge applies after the due date as shown on the bill.", label: 0, lang: en}
+- {text: "You may submit your reply in writing within 30 days of receiving this notice.", label: 0, lang: en}
+- {text: "For any complaint, call the number printed on your bill or visit the customer service centre.", label: 0, lang: en}
+- {text: "aap ka october ka bill 3200 rupay hai, aakhri tareekh 20 november hai, kisi bhi bank mein jama karwa sakte hain", label: 0, lang: roman}
+- {text: "agar bill ghalat hai to apne sub division office mein bill ki copy le kar shikayat karein", label: 0, lang: roman}
+- {text: "meter check karwane ke liye darkhwast dein, company 7 din mein check karegi", label: 0, lang: roman}
+- {text: "apne asal kagzat le kar daftar ke auqat mein tashreef layein", label: 0, lang: roman}
+- {text: "is notice ka jawab 30 din ke andar likh kar jama karwa sakte hain", label: 0, lang: roman}
+- {text: "tax return file karne ki aakhri tareekh notice par likhi hai", label: 0, lang: roman}
+- {text: "aakhri tareekh ke baad bill par late payment surcharge lagega", label: 0, lang: roman}
+- {text: "آپ کا اکتوبر کا بل 3200 روپے ہے۔ آخری تاریخ 20 نومبر ہے۔ کسی بھی بینک میں جمع کروائیں۔", label: 0, lang: ur}
+- {text: "اگر بل غلط ہے تو بل کی کاپی کے ساتھ اپنے سب ڈویژن دفتر میں شکایت درج کروائیں۔", label: 0, lang: ur}
+- {text: "اس نوٹس کا جواب تیس دن کے اندر تحریری طور پر جمع کروایا جا سکتا ہے۔", label: 0, lang: ur}
+- {text: "دفتری اوقات میں اپنے اصل کاغذات کے ساتھ قریبی دفتر تشریف لائیں۔", label: 0, lang: ur}
+- {text: "آخری تاریخ کے بعد بل پر لیٹ پیمنٹ سرچارج لاگو ہوگا۔", label: 0, lang: ur}
