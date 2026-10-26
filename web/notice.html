@@ -61,8 +61,9 @@
       <p class="hint"><span data-l="ur">یا نمونہ آزمائیں:</span><span data-l="en">Or try a sample:</span></p>
       <div id="chips" class="chips"></div>
       <div class="upload">
-        <strong><span data-l="ur">تصویر سے نوٹس پڑھنا</span><span data-l="en">Read a notice from a photo</span></strong>
-        <span><span data-l="ur">جلد دستیاب ہوگا۔ فی الحال نوٹس کا متن پیسٹ کریں۔</span><span data-l="en">Coming soon. For now, paste the notice text.</span></span>
+        <label for="file-notice"><span data-l="ur">نوٹس کی تصویر سے متن پڑھیں</span><span data-l="en">Read a notice from a photo</span></label>
+        <input id="file-notice" type="file" accept="image/jpeg,image/png">
+        <span><span data-l="ur">JPG یا PNG، زیادہ سے زیادہ 8 MB۔ تصویر ہمارے اپنے سرور پر پڑھی جاتی ہے اور فوراً ختم ہو جاتی ہے۔ ذاتی معلومات چھپا دی جاتی ہیں اور بھیجنے سے پہلے آپ متن خود دیکھتے ہیں۔ انگریزی اور رومن اردو نوٹس بہتر پڑھے جاتے ہیں۔</span><span data-l="en">JPG or PNG, up to 8 MB. The photo is read on our own server and deleted right after. Personal details are hidden, and you review the text before it is analysed. English and Roman Urdu notices are read best.</span></span>
       </div>
       <button id="btn-review" class="primary" type="button"><span data-l="ur">بھیجنے سے پہلے جانچیں</span><span data-l="en">Review and send</span></button>
     </section>
@@ -72,6 +73,7 @@
       <p><span data-l="ur">صرف یہی متن آپ کے آلے سے نکلے گا۔ کالی پٹیاں وہ ذاتی معلومات ہیں جو چھپا دی گئی ہیں۔</span><span data-l="en">Only this text will leave your device. Black bars mark personal details we hid.</span></p>
       <div id="preview-text" class="preview-text" dir="auto"></div>
       <p id="mask-summary" class="mask-summary"></p>
+      <p id="ocr-note" class="muted" hidden></p>
       <div class="row">
         <button id="btn-confirm" class="primary" type="button"><span data-l="ur">بھیجیں</span><span data-l="en">Send</span></button>
         <button id="btn-cancel" class="ghost" type="button"><span data-l="ur">واپس جا کر ترمیم کریں</span><span data-l="en">Go back and edit</span></button>

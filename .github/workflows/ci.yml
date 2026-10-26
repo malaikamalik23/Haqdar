@@ -103,6 +103,9 @@ jobs:
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - name: Lint the Dockerfile
         uses: hadolint/hadolint-action@v3.5.0
         with:
@@ -129,6 +132,15 @@ jobs:
           curl -fsS -X POST http://127.0.0.1:8000/ask -H "content-type: application/json" \
             -d '{"question":"What is the weather in Lahore?","lang":"en"}' \
             | python3 -c "import sys, json; d = json.load(sys.stdin); assert d['abstained'] is True, d; print('out-of-scope question refused')"
+          python3 -m pip install --quiet pillow
+          python3 - <<'PY'
+          from PIL import Image, ImageDraw, ImageFont
+          img = Image.new("RGB", (1700, 260), "white")
+          ImageDraw.Draw(img).text((40, 40), "Pay Rs 5000 by 30 November 2026", fill="black", font=ImageFont.load_default(size=60))
+          img.save("notice.png")
+          PY
+          curl -fsS -F "file=@notice.png;type=image/png" http://127.0.0.1:8000/extract \
+            | python3 -c "import sys, json; d = json.load(sys.stdin); assert '5000' in d['text'], d; print('photo read inside the container:', d['text'][:60])"
           test "$(docker exec haqdar-api id -u)" = "10001"
           echo "container runs as user 10001"
       - name: Show container logs

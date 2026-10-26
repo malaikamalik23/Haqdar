@@ -20,6 +20,12 @@ RUN groupadd --system --gid 10001 app \
 
 WORKDIR /app
 
+# Tesseract reads the text from photos of notices (Urdu and English).
+# hadolint ignore=DL3008
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-eng tesseract-ocr-urd \
+    && rm -rf /var/lib/apt/lists/*
+
 # 1. PyTorch, CPU version only. The default build is several times larger and needs a GPU.
 # hadolint ignore=DL3013
 RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu

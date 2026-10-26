@@ -70,17 +70,20 @@ class _TooLarge(Exception):
 class BodySizeLimitMiddleware:
     """Rejects bodies larger than max_bytes. Checks Content-Length and also counts streamed bytes."""
 
-    def __init__(self, app, *, max_bytes):
+    def __init__(self, app, *, max_bytes, path_max_bytes=None):
         self.app = app
         self.max_bytes = max_bytes
+        self.path_max_bytes = dict(path_max_bytes or {})  # bigger limit for specific routes, e.g. /extract
 
     async def __call__(self, scope, receive, send):
         if scope["type"] != "http":
             return await self.app(scope, receive, send)
 
+        limit = self.path_max_bytes.get(scope["path"], self.max_bytes)
+
         for name, value in scope["headers"]:
             if name == b"content-length":
-                if value.isdigit() and int(value) > self.max_bytes:
+                if value.isdigit() and int(value) > limit:
                     return await _send_all(send, _json_response(413, "Request body too large"))
                 break
 
@@ -93,7 +96,7 @@ class BodySizeLimitMiddleware:
             message = await receive()
             if message["type"] == "http.request":
                 received += len(message.get("body", b""))
-                if received > self.max_bytes:
+                if received > limit:
                     # FastAPI turns errors raised while reading the body into a 400, so the 413
                     # is sent right here, and anything the app sends afterwards is dropped.
                     if not started and not rejected:
@@ -127,9 +130,10 @@ class RateLimitMiddleware:
     WRITE_METHODS = {"POST", "PUT", "PATCH", "DELETE"}
 
     def __init__(self, app, *, write_limit, read_limit, window=60.0, trust_proxy=False,
-                 max_clients=10_000, clock=time.monotonic):
+                 max_clients=10_000, clock=time.monotonic, path_limits=None):
         self.app = app
         self.limits = {"w": write_limit, "r": read_limit}
+        self.path_limits = dict(path_limits or {})  # stricter limit per route, counted separately
         self.window = window
         self.trust_proxy = trust_proxy
         self.max_clients = max_clients
@@ -150,7 +154,12 @@ class RateLimitMiddleware:
         if scope["type"] != "http" or scope["method"] == "OPTIONS":
             return await self.app(scope, receive, send)
 
-        bucket = "w" if scope["method"] in self.WRITE_METHODS else "r"
+        path = scope["path"]
+        if path in self.path_limits:
+            bucket, limit = path, self.path_limits[path]
+        else:
+            bucket = "w" if scope["method"] in self.WRITE_METHODS else "r"
+            limit = self.limits[bucket]
         key = (self._client(scope), bucket)
         now = self.clock()
         window = self.hits.get(key)
@@ -159,7 +168,7 @@ class RateLimitMiddleware:
         while window and now - window[0] >= self.window:
             window.popleft()
 
-        if len(window) >= self.limits[bucket]:
+        if len(window) >= limit:
             retry = max(1, math.ceil(self.window - (now - window[0])))
             return await _send_all(
                 send, _json_response(429, "Too many requests. Try again later.",

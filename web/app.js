@@ -41,6 +41,14 @@ const I18N = {
     btnCopy: "جواب کاپی کریں",
     copied: "کاپی ہو گیا",
     btnNew: "نیا سوال پوچھیں",
+    photoReading: "تصویر سے متن پڑھا جا رہا ہے…",
+    photoType: "صرف JPG یا PNG تصویر منتخب کریں۔",
+    photoBig: "تصویر بہت بڑی ہے۔ 8 MB سے چھوٹی تصویر چنیں۔",
+    photoNoText: "تصویر میں کوئی متن نہیں ملا۔ صاف اور سیدھی تصویر لیں، یا متن پیسٹ کریں۔",
+    photoBusy: "سرور مصروف ہے۔ تھوڑی دیر بعد دوبارہ کوشش کریں۔",
+    photoUnavailable: "اس سرور پر تصویر پڑھنے کی سہولت دستیاب نہیں۔ نوٹس کا متن پیسٹ کریں۔",
+    photoError: "تصویر نہیں پڑھی جا سکی۔ دوسری تصویر آزمائیں یا متن پیسٹ کریں۔",
+    ocrNote: "یہ متن تصویر سے پڑھا گیا ہے اور اس میں غلطیاں ہو سکتی ہیں، خاص طور پر اردو رسم الخط میں۔ بھیجنے سے پہلے غور سے دیکھیں، اور ضرورت ہو تو واپس جا کر درست کریں۔",
   },
   en: {
     progressLabel: "Progress",
@@ -76,6 +84,14 @@ const I18N = {
     btnCopy: "Copy answer",
     copied: "Copied",
     btnNew: "Ask something else",
+    photoReading: "Reading the text from your photo…",
+    photoType: "Please choose a JPG or PNG photo.",
+    photoBig: "The photo is too large. Choose one under 8 MB.",
+    photoNoText: "No text was found in the photo. Try a clearer, straight-on photo, or paste the text.",
+    photoBusy: "The server is busy. Try again in a moment.",
+    photoUnavailable: "Reading photos is not available on this server. Please paste the notice text.",
+    photoError: "The photo could not be read. Try another photo, or paste the text.",
+    ocrNote: "This text was read from a photo and may contain mistakes, especially in Urdu script. Check it carefully before sending, and go back to edit if needed.",
   },
 };
 
@@ -140,6 +156,8 @@ let pending = null; // { text (masked), count }
 let lastResult = null; // { data, asked }
 let status = null; // { kind, key, vars }
 let busy = false;
+let fromPhoto = false; // the text in the box was read from a photo
+const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
 let topicIndex = null;
 let prefilled = null;
 
@@ -324,6 +342,9 @@ function renderPreview() {
   $("mask-summary").textContent = pending.count
     ? t("maskedSome", { n: pending.count })
     : t("maskedNone");
+  const note = $("ocr-note");
+  note.hidden = !pending.fromPhoto;
+  note.textContent = pending.fromPhoto ? t("ocrNote") : "";
 }
 
 function review() {
@@ -332,7 +353,9 @@ function review() {
   if (text.length > MAX_CHARS) return showStatus("error", "statusLong", { max: MAX_CHARS });
   showStatus(null);
   const masked = maskText(text);
-  pending = { text: masked.text, count: masked.count };
+  // Count the placeholders in the text, so details already masked by the server (photos) are counted too.
+  const hidden = new Set(masked.text.match(new RegExp(PLACEHOLDER_RE.source, "g")) || []).size;
+  pending = { text: masked.text, count: hidden, fromPhoto };
   renderPreview();
   showView("preview");
   $("preview-title").focus();
@@ -364,6 +387,7 @@ async function send() {
     if (!res.ok) throw new Error("bad status");
     const data = await res.json();
     lastResult = { data, asked: text };
+    fromPhoto = false;
     $("q").value = "";
     prefilled = null;
     topicIndex = null;
@@ -380,8 +404,59 @@ async function send() {
   }
 }
 
+// Photo upload: the server reads the text and masks personal details, then the normal review step
+// shows it, so nothing is analysed until the user has checked it.
+async function readPhoto(file) {
+  const input = document.getElementById("file-notice");
+  if (!file) return;
+  if (!/\.(jpe?g|png)$/i.test(file.name) && !/^image\/(jpeg|png)$/.test(file.type)) {
+    input.value = "";
+    return showStatus("error", "photoType");
+  }
+  if (file.size > MAX_PHOTO_BYTES) {
+    input.value = "";
+    return showStatus("error", "photoBig");
+  }
+  busy = true;
+  input.disabled = true;
+  showStatus("loading", "photoReading");
+  try {
+    const form = new FormData();
+    form.append("file", file);
+    const res = await fetch(API + "/extract", { method: "POST", body: form });
+    if (!res.ok) {
+      let detail = "";
+      try {
+        detail = (await res.json()).detail || "";
+      } catch {
+        /* the reply was not JSON */
+      }
+      let key = "photoError";
+      if (res.status === 413) key = "photoBig";
+      else if (res.status === 415) key = "photoType";
+      else if (res.status === 429 || (res.status === 503 && res.headers.get("retry-after"))) key = "photoBusy";
+      else if (res.status === 503) key = "photoUnavailable";
+      else if (res.status === 422 && /no text/i.test(detail)) key = "photoNoText";
+      return showStatus("error", key);
+    }
+    const data = await res.json();
+    $("q").value = data.text;
+    fromPhoto = true;
+    updateCounter();
+    showStatus(null);
+    review();
+  } catch {
+    showStatus("error", "statusError");
+  } finally {
+    busy = false;
+    input.disabled = false;
+    input.value = "";
+  }
+}
+
 function newQuestion() {
   lastResult = null;
+  fromPhoto = false;
   pending = null;
   $("result").replaceChildren();
   showStatus(null);
@@ -584,6 +659,8 @@ $("q").addEventListener("keydown", (e) => {
 $("btn-review").addEventListener("click", review);
 $("btn-confirm").addEventListener("click", send);
 $("btn-cancel").addEventListener("click", backToEdit);
+const photoInput = document.getElementById("file-notice");
+if (photoInput) photoInput.addEventListener("change", () => readPhoto(photoInput.files[0]));
 
 readTopic();
 applyLang();

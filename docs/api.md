@@ -20,7 +20,7 @@ Response:
 If `abstained` is true, `steps` is empty and `answer_ur` explains which office to contact.
 
 ## POST /analyze
-Request: an uploaded image (multipart) or `{ "text": "string" }`
+Request: `{ "text": "string", "lang": "ur" | "en" }`. For a photo, call `POST /extract` first and send the reviewed text here.
 Response:
 ```json
 {
@@ -85,3 +85,15 @@ Rules:
 - Invalid requests return `422` with `{"detail": "Invalid request", "errors": [{"field": "...", "problem": "..."}]}`. Error bodies never repeat what the user sent.
 - Every response carries `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, `Cache-Control: no-store` and a strict `Content-Security-Policy`.
 - `GET /health` returns `{"status": "ok"}`.
+
+## POST /extract (photo of a notice)
+
+Reads the text from a photo. Send `multipart/form-data` with one field, `file` (a JPG or PNG, up to 8 MB).
+
+Reply: `{ "text": "string", "masked": 2, "truncated": false }`. Personal details (CNIC, phone, email, IBAN, labelled reference numbers) are replaced by placeholders such as `[CNIC_1]` before the text is returned. The real values are never returned or stored. `truncated` is true when the text was cut to 4000 characters.
+
+The web app puts this text in the review step. The user checks it (OCR makes mistakes), and only then does it go to `/analyze` as ordinary text.
+
+Errors: `400` not a valid image, `413` too large, `415` PDF or another type, `422` no text found or the photo could not be read, `429` too many requests (6 per minute per client), `503` busy (with `Retry-After`) or reading photos is not available on this server.
+
+The photo is checked by `security.files.validate_upload` (real file type, size, metadata removed), read in memory by `ai.ocr`, and never logged. At most two photos are read at the same time. Reading is most accurate for English and Roman Urdu notices; Urdu script is often misread (see `eval/ocr_results.md`).

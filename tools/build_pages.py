@@ -231,6 +231,7 @@ def tool_body(*, spot, h1, sub, label, hint, extra_compose, tips_title, tips_ite
       <p>{bi("صرف یہی متن آپ کے آلے سے نکلے گا۔ کالی پٹیاں وہ ذاتی معلومات ہیں جو چھپا دی گئی ہیں۔", "Only this text will leave your device. Black bars mark personal details we hid.")}</p>
       <div id="preview-text" class="preview-text" dir="auto"></div>
       <p id="mask-summary" class="mask-summary"></p>
+      <p id="ocr-note" class="muted" hidden></p>
       <div class="row">
         <button id="btn-confirm" class="primary" type="button">{bi("بھیجیں", "Send")}</button>
         <button id="btn-cancel" class="ghost" type="button">{bi("واپس جا کر ترمیم کریں", "Go back and edit")}</button>
@@ -271,8 +272,9 @@ ask_body = tool_body(
 
 UPLOAD = f'''
       <div class="upload">
-        <strong>{bi("تصویر سے نوٹس پڑھنا", "Read a notice from a photo")}</strong>
-        <span>{bi("جلد دستیاب ہوگا۔ فی الحال نوٹس کا متن پیسٹ کریں۔", "Coming soon. For now, paste the notice text.")}</span>
+        <label for="file-notice">{bi("نوٹس کی تصویر سے متن پڑھیں", "Read a notice from a photo")}</label>
+        <input id="file-notice" type="file" accept="image/jpeg,image/png">
+        <span>{bi("JPG یا PNG، زیادہ سے زیادہ 8 MB۔ تصویر ہمارے اپنے سرور پر پڑھی جاتی ہے اور فوراً ختم ہو جاتی ہے۔ ذاتی معلومات چھپا دی جاتی ہیں اور بھیجنے سے پہلے آپ متن خود دیکھتے ہیں۔ انگریزی اور رومن اردو نوٹس بہتر پڑھے جاتے ہیں۔", "JPG or PNG, up to 8 MB. The photo is read on our own server and deleted right after. Personal details are hidden, and you review the text before it is analysed. English and Roman Urdu notices are read best.")}</span>
       </div>'''
 
 notice_body = tool_body(
@@ -337,6 +339,8 @@ about_body = f'''
             <div data-l="en">Your documents are not stored, and what you type is not logged.</div></li>
         <li><div data-l="ur">ذاتی معلومات بھیجنے سے پہلے آپ کے براؤزر میں چھپائی جاتی ہیں، اور سرور پر دوبارہ۔</div>
             <div data-l="en">Personal details are masked in your browser before sending, and again on the server.</div></li>
+        <li><div data-l="ur">نوٹس کی تصویر ہمارے اپنے سرور پر پڑھی جاتی ہے، پڑھنے کے دوران عارضی طور پر رہتی ہے اور فوراً ختم ہو جاتی ہے۔ ذاتی معلومات چھپا دی جاتی ہیں اور تجزیے سے پہلے آپ متن خود دیکھتے ہیں۔</div>
+            <div data-l="en">A photo of a notice is read on our own server, held only temporarily while it is read, and deleted right after. Personal details are masked, and you review the text before anything is analysed.</div></li>
         <li><div data-l="ur">یہ سائٹ آپ کے براؤزر میں صرف آپ کی زبان کا انتخاب یاد رکھتی ہے۔</div>
             <div data-l="en">This site remembers only your language choice, in your own browser.</div></li>
         <li class="caveat"><div data-l="ur">چھپانے کا عمل ہر چیز نہیں پکڑتا۔ یہ شناختی کارڈ، فون، ای میل، IBAN اور لیبل والے حوالہ نمبر پکڑتا ہے، مگر نام اور پتے رہ سکتے ہیں۔ باقی ذاتی معلومات بھیجنے سے پہلے خود ہٹا دیں۔</div>
@@ -353,6 +357,8 @@ about_body = f'''
             <div data-l="en">It only answers topics that have been written up and checked against official sources. Right now it covers electricity bill disputes, replying to an FBR tax-return notice, renewing a CNIC, and renting in Islamabad. For anything else, Haqdar says plainly that it couldn't verify an answer.</div></li>
         <li class="caveat"><div data-l="ur">جعلی نوٹس کی جانچ صرف انتباہی علامتیں دیکھتی ہے۔ «ممکنہ طور پر اصلی» کا مطلب تصدیق نہیں، ادائیگی سے پہلے متعلقہ دفتر سے رابطہ کریں۔</div>
             <div data-l="en">The fake-notice check only looks for warning signs. "Possibly genuine" is not a confirmation: contact the office before you pay.</div></li>
+        <li class="caveat"><div data-l="ur">تصویر سے متن پڑھنا انگریزی اور رومن اردو نوٹس پر بہتر کام کرتا ہے۔ اردو رسم الخط اکثر غلط پڑھا جاتا ہے، اور رقم یا تاریخ بھی غلط پڑھی جا سکتی ہے، اس لیے متن ضرور جانچ لیں۔</div>
+            <div data-l="en">Reading text from a photo works best on English and Roman Urdu notices. Urdu script is often misread, and amounts or dates can be wrong, so always check the text.</div></li>
         <li class="caveat"><div data-l="ur">قوانین اور ویب سائٹس بدلتی رہتی ہیں۔ ماخذ کا لنک کھول کر خود تصدیق کریں۔</div>
             <div data-l="en">Rules and websites change. Open the source link to check for yourself.</div></li>
       </ul>
