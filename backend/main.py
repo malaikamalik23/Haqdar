@@ -68,7 +68,7 @@ class AnalyzeRequest(BaseModel):
 
 class LetterRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    pack_id: str = Field(pattern=r"^[a-z0-9-]{1,64}$")
+    pack_id: str = Field(pattern=r"^[a-z0-9_-]{1,64}$")
     fields: dict[str, str] = Field(default_factory=dict)
     lang: Lang = "ur"
 
