@@ -89,7 +89,7 @@
       "abstained": false,
       "correct": true,
       "citations_ok": true,
-      "confidence": 0.3046
+      "confidence": 0.375
     },
     {
       "q": "nepra mein bijli bill ki shikayat kaise karun",
@@ -99,7 +99,7 @@
       "abstained": false,
       "correct": true,
       "citations_ok": true,
-      "confidence": 0.3145
+      "confidence": 0.36
     },
     {
       "q": "ziada bill aya hai complaint number kahan milega",
@@ -169,7 +169,7 @@
       "abstained": false,
       "correct": true,
       "citations_ok": true,
-      "confidence": 0.6852
+      "confidence": 0.7352
     },
     {
       "q": "Do I have to keep paying bills while my complaint is with NEPRA?",
@@ -332,12 +332,102 @@
       "confidence": 0.5434
     },
     {
+      "q": "rent agreement kaise banta hai",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6282
+    },
+    {
+      "q": "malik makan har saal kitna kiraya barha sakta hai",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.3375
+    },
+    {
+      "q": "landlord zabardasti ghar khali karwa raha hai",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6053
+    },
+    {
+      "q": "مالک مکان کرایہ نہیں لے رہا، کیا کروں؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6017
+    },
+    {
+      "q": "کیا مالک مکان پگڑی مانگ سکتا ہے؟",
+      "lang": "ur",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5794
+    },
+    {
+      "q": "Does my rent agreement in Islamabad need to be in writing?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.6106
+    },
+    {
+      "q": "My landlord won't fix the leaking roof. What can I do?",
+      "lang": "en",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.5054
+    },
+    {
+      "q": "kirayedar ko kiraye ki raseed lena zaroori hai kya",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "abstained": false,
+      "correct": true,
+      "citations_ok": true,
+      "confidence": 0.27
+    },
+    {
+      "q": "kya malik makan bina wajah nikal sakta hai",
+      "lang": "roman",
+      "kind": "answerable",
+      "retrieval_hit": false,
+      "abstained": true,
+      "correct": false,
+      "citations_ok": true,
+      "confidence": 0.225
+    },
+    {
       "q": "پاسپورٹ کیسے بنواؤں؟",
       "lang": "ur",
       "kind": "out_of_scope",
       "abstained": true,
       "correct": true,
-      "confidence": 0.1209,
+      "confidence": 0.1369,
       "note": ""
     },
     {
@@ -346,7 +436,7 @@
       "kind": "out_of_scope",
       "abstained": true,
       "correct": true,
-      "confidence": 0.1529,
+      "confidence": 0.225,
       "note": ""
     },
     {
@@ -366,15 +456,6 @@
       "correct": true,
       "confidence": 0.0,
       "note": "trap: Sui gas is not covered by the electricity pack"
-    },
-    {
-      "q": "rent agreement kaise banta hai",
-      "lang": "roman",
-      "kind": "out_of_scope",
-      "abstained": true,
-      "correct": true,
-      "confidence": 0.1542,
-      "note": ""
     },
     {
       "q": "sui gas ka meter tez chal raha hai",
@@ -409,8 +490,17 @@
       "kind": "out_of_scope",
       "abstained": true,
       "correct": true,
-      "confidence": 0.075,
+      "confidence": 0.1125,
       "note": ""
+    },
+    {
+      "q": "lahore mein kiraya kitna barh sakta hai",
+      "lang": "roman",
+      "kind": "out_of_scope",
+      "abstained": true,
+      "correct": true,
+      "confidence": 0.0755,
+      "note": "jurisdiction trap: Punjab has a different rent law"
     },
     {
       "q": "How much income tax do I have to pay on my salary?",
