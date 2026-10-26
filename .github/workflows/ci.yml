@@ -141,6 +141,28 @@ jobs:
           PY
           curl -fsS -F "file=@notice.png;type=image/png" http://127.0.0.1:8000/extract \
             | python3 -c "import sys, json; d = json.load(sys.stdin); assert '5000' in d['text'], d; print('photo read inside the container:', d['text'][:60])"
+          python3 - <<'PY'
+          text = "Pay Rs 5000 by 30 November 2026"
+          stream = f"BT /F1 14 Tf 50 700 Td ({text}) Tj ET"
+          objs = [
+              "<< /Type /Catalog /Pages 2 0 R >>",
+              "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+              "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>",
+              f"<< /Length {len(stream)} >>\nstream\n{stream}\nendstream",
+              "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+          ]
+          out, offsets = b"%PDF-1.4\n", []
+          for i, body in enumerate(objs, 1):
+              offsets.append(len(out))
+              out += f"{i} 0 obj\n{body}\nendobj\n".encode()
+          xref = len(out)
+          out += f"xref\n0 {len(objs) + 1}\n0000000000 65535 f \n".encode()
+          out += "".join(f"{o:010d} 00000 n \n" for o in offsets).encode()
+          out += f"trailer\n<< /Size {len(objs) + 1} /Root 1 0 R >>\nstartxref\n{xref}\n%%EOF\n".encode()
+          open("notice.pdf", "wb").write(out)
+          PY
+          curl -fsS -F "file=@notice.pdf;type=application/pdf" http://127.0.0.1:8000/extract \
+            | python3 -c "import sys, json; d = json.load(sys.stdin); assert '5000' in d['text'], d; print('PDF read inside the container:', d['text'][:60])"
           test "$(docker exec haqdar-api id -u)" = "10001"
           echo "container runs as user 10001"
       - name: Show container logs

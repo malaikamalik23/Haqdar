@@ -13,6 +13,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from security.files import UploadError, validate_upload
 from security.http_guard import BodySizeLimitMiddleware, RateLimitMiddleware, SecurityHeadersMiddleware
+from security.pdf_text import PdfEncrypted, PdfError, PdfNoText, PdfUnavailable, extract_pdf_text
 from security.redact import redact
 
 DEV_ORIGINS = ("http://localhost:5500", "http://127.0.0.1:5500")
@@ -216,9 +217,7 @@ def create_app(settings=None):
         except UploadError as exc:
             status = 413 if str(exc) == "file too large" else 400
             return JSONResponse(status_code=status, content={"detail": str(exc)})
-        if cleaned.startswith(b"%PDF-"):
-            return JSONResponse(status_code=415, content={"detail": "Please send a JPG or PNG photo"})
-
+        is_pdf = cleaned.startswith(b"%PDF-")
         if not real:
             text = MOCK_PHOTO_TEXT
         else:
@@ -228,7 +227,19 @@ def create_app(settings=None):
                 return JSONResponse(status_code=503, content={"detail": "Busy, try again in a moment"},
                                     headers={"Retry-After": "5"})
             try:
-                text = await run_in_threadpool(ocr.extract_text, cleaned)
+                if is_pdf:
+                    text = await run_in_threadpool(extract_pdf_text, cleaned)
+                else:
+                    text = await run_in_threadpool(ocr.extract_text, cleaned)
+            except PdfEncrypted:
+                return JSONResponse(status_code=422, content={"detail": "The PDF is password protected"})
+            except PdfNoText:
+                return JSONResponse(status_code=422, content={
+                    "detail": "No text was found in the PDF. It may be a scan: upload a photo of the page instead"})
+            except PdfUnavailable:
+                return JSONResponse(status_code=503, content={"detail": "Reading PDFs is not available on this server"})
+            except PdfError:
+                return JSONResponse(status_code=422, content={"detail": "The PDF could not be read"})
             except ocr.OcrUnavailable:
                 return JSONResponse(status_code=503, content={"detail": "Reading photos is not available on this server"})
             except ocr.OcrError:

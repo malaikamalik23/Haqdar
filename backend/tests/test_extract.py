@@ -72,9 +72,9 @@ def test_very_long_text_is_cut_to_the_limit(fake_ocr):
 
 # ---------- the upload itself is distrusted ----------
 
-def test_pdf_is_refused(fake_ocr):
+def test_a_pdf_that_is_not_really_a_pdf_gets_a_clean_error(fake_ocr):
     r = post(client(ai_mode="real"), b"%PDF-1.4 fake", "x.pdf", "application/pdf")
-    assert r.status_code == 415
+    assert r.status_code == 422 and r.json() == {"detail": "The PDF could not be read"}
 
 
 def test_text_file_renamed_to_png_is_refused(fake_ocr):
