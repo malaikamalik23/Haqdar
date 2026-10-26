@@ -6,6 +6,9 @@ comes from a visible pattern in the text. Missing fields are returned as "".
 
 Public contract (docs/api.md):
   extract_fields(text: str) -> {sender, date, deadline, amount, demand}
+  fields_ur(fields: dict) -> {sender_ur, date_ur, deadline_ur, amount_ur}
+      Urdu display versions: Urdu digits, Urdu month names, Urdu sender names,
+      e.g. "18,500" -> "۱۸,۵۰۰ روپے", "20-11-2026" -> "۲۰ نومبر ۲۰۲۶".
 """
 
 from __future__ import annotations
@@ -127,6 +130,78 @@ def find_demand(text: str) -> str:
     return ""
 
 
+# ---------- Urdu display ----------
+
+URDU_DIGITS = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
+URDU_MONTH_NAMES = ["جنوری", "فروری", "مارچ", "اپریل", "مئی", "جون",
+                    "جولائی", "اگست", "ستمبر", "اکتوبر", "نومبر", "دسمبر"]
+_EN_MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+SENDER_UR = {
+    "IESCO": "آئیسکو", "LESCO": "لیسکو", "MEPCO": "میپکو", "FESCO": "فیسکو", "GEPCO": "گیپکو",
+    "PESCO": "پیسکو", "HESCO": "حیسکو", "SEPCO": "سیپکو", "QESCO": "کیسکو", "TESCO": "ٹیسکو",
+    "K-Electric": "کے الیکٹرک", "NEPRA": "نیپرا", "FBR": "ایف بی آر",
+    "FBR (Inland Revenue)": "ایف بی آر (ان لینڈ ریونیو)", "NADRA": "نادرا", "SNGPL": "سوئی ناردرن گیس",
+    "SSGC": "سوئی سدرن گیس", "Rent Controller": "رینٹ کنٹرولر",
+}
+
+
+RLM = "\u200f"  # invisible right-to-left mark
+
+
+def rtl(text: str) -> str:
+    """Mark a short Urdu value so any screen shows it right-to-left in the right order
+    (day -> month -> year), even inside left-to-right text such as JSON or a terminal."""
+    return f"{RLM}{text}{RLM}" if text else ""
+
+
+def to_urdu_digits(text: str) -> str:
+    return str(text).translate(URDU_DIGITS)
+
+
+def date_ur(date: str) -> str:
+    """'20-11-2026' or '20 November 2026' -> '۲۰ نومبر ۲۰۲۶'. Unknown formats: digits only."""
+    if not date:
+        return ""
+    m = re.match(r"^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2,4})$", date)
+    if m:
+        day, month, year = int(m.group(1)), int(m.group(2)), m.group(3)
+        if len(year) == 2:
+            year = "20" + year
+        if 1 <= month <= 12 and 1 <= day <= 31:
+            return to_urdu_digits(f"{day} {URDU_MONTH_NAMES[month - 1]} {year}")
+    m = re.match(r"^(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+),?\s+(\d{4})$", date) or \
+        re.match(r"^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$", date)
+    if m:
+        a, b, year = m.groups()
+        day, month_word = (a, b) if a.isdigit() else (b, a)
+        month = _EN_MONTHS.get(month_word.lower()[:3])
+        if month:
+            return to_urdu_digits(f"{int(day)} {URDU_MONTH_NAMES[month - 1]} {year}")
+    return to_urdu_digits(date)
+
+
+def amount_ur(amount: str) -> str:
+    return f"{to_urdu_digits(amount)} روپے" if amount else ""
+
+
+def sender_ur(sender: str) -> str:
+    if not sender:
+        return ""
+    name = SENDER_UR.get(sender)
+    return f"{name} ({sender})" if name else sender
+
+
+def fields_ur(fields: dict) -> dict:
+    """Urdu display versions of the extracted fields (the originals are kept separately)."""
+    return {
+        "sender_ur": rtl(sender_ur(fields.get("sender", ""))),
+        "date_ur": rtl(date_ur(fields.get("date", ""))),
+        "deadline_ur": rtl(date_ur(fields.get("deadline", ""))),
+        "amount_ur": rtl(amount_ur(fields.get("amount", ""))),
+    }
+
+
 def extract_fields(text: str) -> dict:
     text = _clean(text)
     issue, deadline = find_dates(text)
@@ -140,7 +215,8 @@ def extract_fields(text: str) -> dict:
 
 
 if __name__ == "__main__":
-    # Try it:  cd backend; python -m ai.extract
+    # Try it:  cd backend; python -m ai.extract          (JSON in the terminal)
+    #          cd backend; python -m ai.extract --html   (Urdu fields right-to-left in the browser)
     import json
 
     sample = """IESCO - Islamabad Electric Supply Company
@@ -148,4 +224,28 @@ Bill Date: 05-11-2026
 Amount Payable: Rs 18,500
 Due Date: 20-11-2026
 Please pay the amount before the due date to avoid a late payment surcharge."""
-    print(json.dumps(extract_fields(sample), ensure_ascii=False, indent=2))
+    import sys
+
+    fields = extract_fields(sample)
+    ur = fields_ur(fields)
+    if "--html" in sys.argv:
+        # Shows the Urdu fields the way the web app will: right-to-left.
+        import html
+        import tempfile
+        import webbrowser
+        from pathlib import Path
+
+        rows = "".join(f"<tr><th>{html.escape(label)}</th><td>{html.escape(ur[key])}</td></tr>"
+                       for label, key in (("بھیجنے والا", "sender_ur"), ("تاریخ", "date_ur"),
+                                          ("آخری تاریخ", "deadline_ur"), ("رقم", "amount_ur")))
+        page = ('<!doctype html><html lang="ur" dir="rtl"><meta charset="utf-8">'
+                '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap">'
+                '<body style="font-family:\'Noto Nastaliq Urdu\',serif;font-size:22px;line-height:2.4;padding:40px">'
+                f'<table cellpadding="10">{rows}</table></body></html>')
+        path = Path(tempfile.gettempdir()) / "haqdar_fields_ur.html"
+        path.write_text(page, encoding="utf-8")
+        webbrowser.open(path.as_uri())
+        print(f"Opened {path}")
+    else:
+        print(json.dumps(fields, ensure_ascii=False, indent=2))
+        print(json.dumps(ur, ensure_ascii=False, indent=2))

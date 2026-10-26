@@ -91,3 +91,39 @@ def test_year_first_date_is_normalised():
 
 def test_money_shape_does_not_grab_dates_or_plain_numbers():
     assert extract.find_amount("Units 450, date 20-11-2026") == ""
+
+
+# ---------- Urdu display ----------
+
+def test_urdu_digits():
+    assert extract.to_urdu_digits("18,500") == "۱۸,۵۰۰"
+
+
+def test_numeric_date_to_urdu():
+    assert extract.date_ur("20-11-2026") == "۲۰ نومبر ۲۰۲۶"
+    assert extract.date_ur("05/01/26") == "۵ جنوری ۲۰۲۶"
+
+
+def test_english_word_date_to_urdu():
+    assert extract.date_ur("30 October 2026") == "۳۰ اکتوبر ۲۰۲۶"
+    assert extract.date_ur("November 20, 2026") == "۲۰ نومبر ۲۰۲۶"
+
+
+def test_bad_date_keeps_text_with_urdu_digits():
+    assert extract.date_ur("31-13-2026") == "۳۱-۱۳-۲۰۲۶"
+
+
+def test_fields_ur_for_english_bill():
+    out = {k: v.strip(extract.RLM) for k, v in extract.fields_ur(extract.extract_fields(BILL_EN)).items()}
+    assert out == {"sender_ur": "آئیسکو (IESCO)", "date_ur": "۵ نومبر ۲۰۲۶",
+                   "deadline_ur": "۲۰ نومبر ۲۰۲۶", "amount_ur": "۱۸,۵۰۰ روپے"}
+
+
+def test_fields_ur_empty():
+    assert extract.fields_ur({}) == {"sender_ur": "", "date_ur": "", "deadline_ur": "", "amount_ur": ""}
+
+
+def test_urdu_values_are_wrapped_in_rtl_marks():
+    out = extract.fields_ur({"deadline": "20-11-2026"})
+    assert out["deadline_ur"] == extract.RLM + "۲۰ نومبر ۲۰۲۶" + extract.RLM
+    assert out["amount_ur"] == ""  # empty stays empty, no stray marks
