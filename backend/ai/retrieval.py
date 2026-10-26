@@ -8,7 +8,8 @@ How it works (hybrid search):
   2. Keyword score: word overlap between the question and the chunk text plus the
      pack's optional `keywords` list. This helps Roman Urdu ("meter tez chal raha"),
      which multilingual models handle poorly.
-  final score = SEMANTIC_WEIGHT * semantic + KEYWORD_WEIGHT * keyword   (0..1)
+  final score = max(0.7 * semantic + 0.3 * keyword,  0.45 * keyword)     (0..1)
+     The second term lets Roman Urdu (where the model scores ~0) be found by keywords.
   3. Scope guard: a pack can list `exclude_keywords` (e.g. "gas", "sui" for the electricity
      pack). If the question contains one, that pack's chunks are skipped, so a gas-bill
      question is not answered with electricity steps.
@@ -31,7 +32,13 @@ DEFAULT_MODEL = os.getenv(
 )
 SEMANTIC_WEIGHT = 0.7
 KEYWORD_WEIGHT = 0.3
-CANDIDATES = 20  # how many chunks FAISS returns before re-ranking
+# The multilingual model gives Roman Urdu questions a semantic score near 0, which capped
+# them at 0.3 even with a perfect keyword match. A strong keyword match can now stand
+# on its own: score = max(mix, KEYWORD_ONLY_WEIGHT * keyword).
+KEYWORD_ONLY_WEIGHT = 0.45
+# How many chunks get both scores. Must cover ALL chunks while packs are small:
+# a shortlist by meaning alone drops Roman Urdu matches that only keywords catch.
+CANDIDATES = 500
 
 # Very common words that carry no meaning for matching (English, Roman Urdu, Urdu).
 STOPWORDS = {
@@ -50,11 +57,25 @@ def tokenize(text: str) -> set[str]:
     return {t for t in _TOKEN_RE.findall(str(text).lower()) if t not in STOPWORDS and len(t) > 1}
 
 
-def keyword_score(query_tokens: set[str], chunk_tokens: set[str]) -> float:
-    """Fraction of the question's words that appear in the chunk (0..1)."""
+PREFIX_LEN = 5  # Roman Urdu spelling variants: barha/barhana/barhega, kiraya/kirayadar
+
+
+def _prefixes(tokens: set[str]) -> set[str]:
+    return {t[:PREFIX_LEN] for t in tokens if len(t) >= PREFIX_LEN}
+
+
+def keyword_score(query_tokens: set[str], chunk_tokens: set[str], chunk_prefixes: set[str] | None = None) -> float:
+    """Fraction of the question's words found in the chunk (0..1).
+
+    A word counts if it matches exactly, or (for words of 5+ letters) if its first
+    5 letters match a chunk word's first 5 letters. This handles Roman Urdu spelling
+    variants without listing every form."""
     if not query_tokens:
         return 0.0
-    return len(query_tokens & chunk_tokens) / len(query_tokens)
+    prefixes = chunk_prefixes if chunk_prefixes is not None else _prefixes(chunk_tokens)
+    hits = sum(1 for t in query_tokens
+               if t in chunk_tokens or (len(t) >= PREFIX_LEN and t[:PREFIX_LEN] in prefixes))
+    return hits / len(query_tokens)
 
 
 class SentenceTransformerEmbedder:
@@ -85,6 +106,7 @@ class Retriever:
             tokenize(" ".join([_chunk_index_text(c), *c.get("keywords", []), *c.get("step_keywords", [])]))
             for c in chunks
         ]
+        self.chunk_prefixes = [_prefixes(t) for t in self.chunk_tokens]
         self.chunk_excludes = [tokenize(" ".join(c.get("exclude_keywords", []))) for c in chunks]
         vecs = embedder.encode([_chunk_index_text(c) for c in chunks])
         vecs = _normalize(vecs)
@@ -105,8 +127,8 @@ class Retriever:
             if idx < 0 or (self.chunk_excludes[idx] & q_tokens):
                 continue
             semantic = max(0.0, float(sim))  # cosine can be negative; clamp to 0
-            kw = keyword_score(q_tokens, self.chunk_tokens[idx])
-            score = SEMANTIC_WEIGHT * semantic + KEYWORD_WEIGHT * kw
+            kw = keyword_score(q_tokens, self.chunk_tokens[idx], self.chunk_prefixes[idx])
+            score = max(SEMANTIC_WEIGHT * semantic + KEYWORD_WEIGHT * kw, KEYWORD_ONLY_WEIGHT * kw)
             c = self.chunks[idx]
             results.append({
                 "pack_id": c["pack_id"],

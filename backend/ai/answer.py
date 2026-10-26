@@ -20,6 +20,7 @@ Public contract (docs/api.md):
 from __future__ import annotations
 
 import os
+import re
 
 from . import pack_loader, retrieval
 
@@ -42,6 +43,18 @@ ABSTAIN_EN = (
 )
 
 _packs_cache: dict | None = None
+
+# English inside Urdu text, e.g. "(Electric Inspector / POI)", gets jumbled in right-to-left
+# layout. Wrapping each bracketed English part in a left-to-right isolate keeps it in one piece.
+LRI, PDI = "\u2066", "\u2069"
+_LATIN_IN_BRACKETS = re.compile(r"\([^()]*[A-Za-z][^()]*\)")
+
+
+NBSP = "\u00a0"  # non-breaking space: keeps "(Electric Inspector / POI)" on one line
+
+
+def isolate_english(text: str) -> str:
+    return _LATIN_IN_BRACKETS.sub(lambda m: f"{LRI}{m.group(0).replace(' ', NBSP)}{PDI}", text)
 
 
 def _get_packs() -> dict:
@@ -121,7 +134,8 @@ def answer_question(question: str, lang: str = "ur", *, retriever=None, packs=No
     ]
 
     out = {
-        "answer_ur": f"یہ معلومات «{pack['title_ur']}» کے سرکاری ذرائع سے لی گئی ہیں۔ نیچے دیے گئے اقدامات پر عمل کریں۔ متعلقہ دفتر: {pack['office']}",
+        "answer_ur": isolate_english(
+            f"یہ معلومات «{pack['title_ur']}» کے سرکاری ذرائع سے لی گئی ہیں۔ نیچے دیے گئے اقدامات پر عمل کریں۔ متعلقہ دفتر: {pack['office']}"),
         "steps": steps,
         "sources": sources,
         "confidence": round(best["score"], 4),

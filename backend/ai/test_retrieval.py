@@ -95,6 +95,57 @@ def test_exclude_keywords_skip_pack():
     assert r.search("bill zyada", k=4) != []
 
 
+def test_roman_urdu_spelling_variants_match():
+    assert retrieval.keyword_score({"barha"}, {"barhana"}) == 1.0
+    assert retrieval.keyword_score({"kirayadar"}, {"kiraya"}) == 1.0
+
+
+def test_different_words_with_short_shared_start_do_not_match():
+    assert retrieval.keyword_score({"passport"}, {"password"}) == 0.0
+    assert retrieval.keyword_score({"bill"}, {"billing"}) == 0.0  # under 5 letters: exact only
+
+
+def test_keyword_match_found_even_if_meaning_ranks_it_last():
+    """Regression: keywords must be able to rescue a step the meaning model ranks low."""
+    base = {"pack_id": "p", "title_ur": "t", "text_en": "", "keywords": []}
+    chunks = [{**base, "step_id": f"s{i}", "source_id": "a", "text_ur": f"filler{i}"} for i in range(30)]
+    chunks.append({**base, "step_id": "target", "source_id": "a", "text_ur": "x", "step_keywords": ["kiraya", "barhana"]})
+
+    class LowForTarget:
+        def encode(self, texts):
+            import numpy as np
+            out = np.zeros((len(texts), 4), dtype="float32")
+            for i, t in enumerate(texts):
+                if "filler" in t:
+                    out[i] = [1, 0, 0, 0]       # unrelated to the question
+                elif t.strip().endswith("x"):
+                    out[i] = [0, -1, 0, 0]      # meaning model ranks the target LAST
+                else:
+                    out[i] = [0, 1, 0, 0]       # the question
+            return out
+
+    r = retrieval.Retriever(chunks, LowForTarget())
+    assert r.search("kiraya barha", k=1)[0]["step_id"] == "target"
+
+
+def test_strong_keyword_match_alone_can_pass_threshold():
+    """Roman Urdu: model gives ~0, but 3 of 4 words matching must still reach 0.25+."""
+    base = {"pack_id": "p", "title_ur": "t", "text_en": "", "keywords": []}
+    chunks = [{**base, "step_id": "s1", "source_id": "a", "text_ur": "x",
+               "step_keywords": ["malik", "makan", "kiraya"]}]
+
+    class Zero:
+        def encode(self, texts):
+            import numpy as np
+            out = np.zeros((len(texts), 4), dtype="float32")
+            out[:, 0] = 1
+            out[:-1 if len(texts) > 1 else len(texts), 1] = 0
+            return out if len(texts) > 1 else np.array([[0, 1, 0, 0]], dtype="float32")
+
+    r = retrieval.Retriever(chunks, Zero())
+    assert r.search("malik makan kiraya barha", k=1)[0]["score"] >= 0.25
+
+
 def test_build_from_real_packs():
     r = retrieval.build_retriever(embedder=FakeEmbedder())
     assert len(r.chunks) > 0

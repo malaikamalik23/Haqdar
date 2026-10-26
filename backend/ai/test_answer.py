@@ -107,3 +107,10 @@ def test_citation_check_drops_invented_step():
 def test_long_question_is_truncated_not_crashing():
     out = ask([hit("s1", 0.9)], question="x" * 10_000)
     assert out["abstained"] is False
+
+
+def test_english_in_brackets_is_isolated_for_rtl():
+    out = answer.isolate_english("دفتر معائنہ (Electric Inspector / POI)؛ نیپرا (NEPRA)")
+    nb = "\u00a0"
+    assert out == (f"دفتر معائنہ \u2066(Electric{nb}Inspector{nb}/{nb}POI)\u2069؛ نیپرا \u2066(NEPRA)\u2069")
+    assert answer.isolate_english("(۱۸ روپے)") == "(۱۸ روپے)"  # no English: unchanged
