@@ -89,3 +89,56 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+  docker:
+    name: Docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint the Dockerfile
+        uses: hadolint/hadolint-action@v3.5.0
+        with:
+          dockerfile: backend/Dockerfile
+      - name: Build the image
+        run: docker build -f backend/Dockerfile -t haqdar-api:ci .
+      - name: Run it locked down and check it
+        run: |
+          docker run -d --name haqdar-api \
+            --read-only --tmpfs /tmp:size=16m,noexec,nosuid,nodev \
+            --cap-drop ALL --security-opt no-new-privileges:true \
+            --memory 512m --cpus 1 --pids-limit 128 \
+            -p 127.0.0.1:8000:8000 haqdar-api:ci
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8000/health && break
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:8000/health
+          echo
+          curl -sI http://127.0.0.1:8000/health | grep -i "x-content-type-options: nosniff"
+          test "$(docker exec haqdar-api id -u)" = "10001"
+          echo "container runs as user 10001"
+      - name: Show container logs
+        if: always()
+        run: docker logs haqdar-api || true
+      - name: Clean up
+        if: always()
+        run: docker rm -f haqdar-api || true
+
+  image-scan:
+    name: Image vulnerability scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: docker build -f backend/Dockerfile -t haqdar-api:ci .
+      - name: Scan with Trivy (fixable high and critical issues fail the check)
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: haqdar-api:ci
+          format: table
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
