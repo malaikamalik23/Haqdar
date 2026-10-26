@@ -1,7 +1,7 @@
 # Haqdar API image, with the AI modules, the procedure packs and the search model inside.
 # Build from the project root:
 #   docker build -f backend/Dockerfile -t haqdar-api .
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
