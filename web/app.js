@@ -41,14 +41,19 @@ const I18N = {
     btnCopy: "جواب کاپی کریں",
     copied: "کاپی ہو گیا",
     btnNew: "نیا سوال پوچھیں",
-    photoReading: "تصویر سے متن پڑھا جا رہا ہے…",
-    photoType: "صرف JPG یا PNG تصویر منتخب کریں۔",
+    photoReading: "فائل سے متن پڑھا جا رہا ہے…",
+    photoType: "صرف JPG، PNG، PDF یا TXT فائل منتخب کریں۔",
     photoBig: "تصویر بہت بڑی ہے۔ 8 MB سے چھوٹی تصویر چنیں۔",
     photoNoText: "تصویر میں کوئی متن نہیں ملا۔ صاف اور سیدھی تصویر لیں، یا متن پیسٹ کریں۔",
     photoBusy: "سرور مصروف ہے۔ تھوڑی دیر بعد دوبارہ کوشش کریں۔",
     photoUnavailable: "اس سرور پر تصویر پڑھنے کی سہولت دستیاب نہیں۔ نوٹس کا متن پیسٹ کریں۔",
-    photoError: "تصویر نہیں پڑھی جا سکی۔ دوسری تصویر آزمائیں یا متن پیسٹ کریں۔",
-    ocrNote: "یہ متن تصویر سے پڑھا گیا ہے اور اس میں غلطیاں ہو سکتی ہیں، خاص طور پر اردو رسم الخط میں۔ بھیجنے سے پہلے غور سے دیکھیں، اور ضرورت ہو تو واپس جا کر درست کریں۔",
+    photoError: "فائل نہیں پڑھی جا سکی۔ دوسری فائل آزمائیں یا متن پیسٹ کریں۔",
+    pdfLocked: "یہ PDF پاس ورڈ سے محفوظ ہے۔ پاس ورڈ ہٹا کر دوبارہ کوشش کریں، یا متن پیسٹ کریں۔",
+    pdfNoText: "اس PDF میں پڑھنے والا متن نہیں ملا۔ شاید یہ اسکین ہے۔ صفحے کی تصویر دیں، یا متن پیسٹ کریں۔",
+    txtBig: "ٹیکسٹ فائل بہت بڑی ہے۔ 200 KB سے چھوٹی فائل چنیں۔",
+    txtEmpty: "اس فائل میں کوئی متن نہیں ہے۔",
+    txtError: "فائل نہیں پڑھی جا سکی۔ اسے UTF-8 میں محفوظ کر کے دوبارہ کوشش کریں، یا متن پیسٹ کریں۔",
+    ocrNote: "یہ متن تصویر یا PDF سے پڑھا گیا ہے اور اس میں غلطیاں ہو سکتی ہیں، خاص طور پر اردو رسم الخط میں۔ بھیجنے سے پہلے غور سے دیکھیں، اور ضرورت ہو تو واپس جا کر درست کریں۔",
   },
   en: {
     progressLabel: "Progress",
@@ -84,14 +89,19 @@ const I18N = {
     btnCopy: "Copy answer",
     copied: "Copied",
     btnNew: "Ask something else",
-    photoReading: "Reading the text from your photo…",
-    photoType: "Please choose a JPG or PNG photo.",
+    photoReading: "Reading the text from your file…",
+    photoType: "Please choose a JPG, PNG, PDF or TXT file.",
     photoBig: "The photo is too large. Choose one under 8 MB.",
     photoNoText: "No text was found in the photo. Try a clearer, straight-on photo, or paste the text.",
     photoBusy: "The server is busy. Try again in a moment.",
     photoUnavailable: "Reading photos is not available on this server. Please paste the notice text.",
-    photoError: "The photo could not be read. Try another photo, or paste the text.",
-    ocrNote: "This text was read from a photo and may contain mistakes, especially in Urdu script. Check it carefully before sending, and go back to edit if needed.",
+    photoError: "The file could not be read. Try another file, or paste the text.",
+    pdfLocked: "This PDF is password protected. Remove the password and try again, or paste the text.",
+    pdfNoText: "No readable text was found in this PDF. It may be a scan. Upload a photo of the page, or paste the text.",
+    txtBig: "The text file is too large. Choose one under 200 KB.",
+    txtEmpty: "This file has no text in it.",
+    txtError: "The file could not be read. Save it as UTF-8 and try again, or paste the text.",
+    ocrNote: "This text was read from a photo or PDF and may contain mistakes, especially in Urdu script. Check it carefully before sending, and go back to edit if needed.",
   },
 };
 
@@ -131,8 +141,9 @@ const TOPICS = { electricity: 0, fbr: 1, cnic: 2, rent: 3 };
 const PATTERNS = [
   ["IBAN", /\bPK\d{2}[A-Z]{4}\d{16}\b/g],
   ["EMAIL", /[\w.+-]+@[\w-]+\.[\w.-]+/g],
-  ["CNIC", /\b\d{5}-?\d{7}-?\d\b/g],
-  ["PHONE", /(?<!\d)(?:\+92|0092|0)[-\s]?3\d{2}[-\s]?\d{7}(?!\d)/g],
+  // Urdu (۰-۹) and Arabic-Indic (٠-٩) digits count as digits too, because Urdu keyboards type them.
+  ["CNIC", /(?<![0-9۰-۹٠-٩])[0-9۰-۹٠-٩]{5}-?[0-9۰-۹٠-٩]{7}-?[0-9۰-۹٠-٩](?![0-9۰-۹٠-٩])/g],
+  ["PHONE", /(?<![0-9۰-۹٠-٩])(?:\+92|0092|[0۰٠])[-\s]?[3۳٣][0-9۰-۹٠-٩]{2}[-\s]?[0-9۰-۹٠-٩]{7}(?![0-9۰-۹٠-٩])/g],
 ];
 const LABELLED = /\b((?:reference|ref|consumer|customer|account|meter|challan|ntn)\s*(?:no\.?|number|#|id)?\s*[:\-]?\s*)((?=[A-Z0-9\-/]*\d)[A-Z0-9][A-Z0-9\-/]{5,})/gi;
 const PLACEHOLDER_RE = /(\[(?:IBAN|EMAIL|CNIC|PHONE|REF)_\d+\])/;
@@ -158,6 +169,7 @@ let status = null; // { kind, key, vars }
 let busy = false;
 let fromPhoto = false; // the text in the box was read from a photo
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
+const MAX_TEXT_FILE_BYTES = 200 * 1024;
 let topicIndex = null;
 let prefilled = null;
 
@@ -404,14 +416,37 @@ async function send() {
   }
 }
 
-// Photo upload: the server reads the text and masks personal details, then the normal review step
+// Text file: read in the browser only, then the normal review step shows it.
+async function readTextFile(file) {
+  if (file.size > MAX_TEXT_FILE_BYTES) return showStatus("error", "txtBig");
+  let text;
+  try {
+    text = (await file.text()).replace(/\u0000/g, "").trim();
+  } catch {
+    return showStatus("error", "txtError");
+  }
+  if (!text) return showStatus("error", "txtEmpty");
+  $("q").value = text.slice(0, MAX_CHARS);
+  fromPhoto = false;
+  updateCounter();
+  showStatus(null);
+  review();
+}
+
+// Photo or PDF upload: the server reads the text and masks personal details, then the normal review step
 // shows it, so nothing is analysed until the user has checked it.
 async function readPhoto(file) {
   const input = document.getElementById("file-notice");
   if (!file) return;
-  if (!/\.(jpe?g|png)$/i.test(file.name) && !/^image\/(jpeg|png)$/.test(file.type)) {
+  const isText = /\.txt$/i.test(file.name) || file.type === "text/plain";
+  const isServerFile = /\.(jpe?g|png|pdf)$/i.test(file.name) || /^(image\/(jpeg|png)|application\/pdf)$/.test(file.type);
+  if (!isText && !isServerFile) {
     input.value = "";
     return showStatus("error", "photoType");
+  }
+  if (isText) {
+    input.value = "";
+    return readTextFile(file);
   }
   if (file.size > MAX_PHOTO_BYTES) {
     input.value = "";
@@ -436,6 +471,8 @@ async function readPhoto(file) {
       else if (res.status === 415) key = "photoType";
       else if (res.status === 429 || (res.status === 503 && res.headers.get("retry-after"))) key = "photoBusy";
       else if (res.status === 503) key = "photoUnavailable";
+      else if (res.status === 422 && /password/i.test(detail)) key = "pdfLocked";
+      else if (res.status === 422 && /no text was found in the pdf/i.test(detail)) key = "pdfNoText";
       else if (res.status === 422 && /no text/i.test(detail)) key = "photoNoText";
       return showStatus("error", key);
     }

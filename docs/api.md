@@ -86,14 +86,14 @@ Rules:
 - Every response carries `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, `Cache-Control: no-store` and a strict `Content-Security-Policy`.
 - `GET /health` returns `{"status": "ok"}`.
 
-## POST /extract (photo of a notice)
+## POST /extract (photo or PDF of a notice)
 
-Reads the text from a photo. Send `multipart/form-data` with one field, `file` (a JPG or PNG, up to 8 MB).
+Reads the text from a photo or a PDF. Send `multipart/form-data` with one field, `file` (a JPG, PNG or PDF, up to 8 MB). A PDF is read only from the text inside it (first 3 pages); a scanned PDF has no text, so send a photo of the page instead.
 
 Reply: `{ "text": "string", "masked": 2, "truncated": false }`. Personal details (CNIC, phone, email, IBAN, labelled reference numbers) are replaced by placeholders such as `[CNIC_1]` before the text is returned. The real values are never returned or stored. `truncated` is true when the text was cut to 4000 characters.
 
 The web app puts this text in the review step. The user checks it (OCR makes mistakes), and only then does it go to `/analyze` as ordinary text.
 
-Errors: `400` not a valid image, `413` too large, `415` PDF or another type, `422` no text found or the photo could not be read, `429` too many requests (6 per minute per client), `503` busy (with `Retry-After`) or reading photos is not available on this server.
+Errors: `400` not a valid image or PDF, or another file type, `413` too large, `422` no text found, a password-protected PDF, or the file could not be read, `429` too many requests (6 per minute per client), `503` busy (with `Retry-After`) or reading files is not available on this server.
 
-The photo is checked by `security.files.validate_upload` (real file type, size, metadata removed), read in memory by `ai.ocr`, and never logged. At most two photos are read at the same time. Reading is most accurate for English and Roman Urdu notices; Urdu script is often misread (see `eval/ocr_results.md`).
+Files are checked by `security.files.validate_upload` (real file type, size, image metadata removed). Photos are read in memory by `ai.ocr` and PDFs by `security.pdf_text` (embedded text only; nothing in the PDF is run or opened). Nothing is logged or kept. At most two files are read at the same time. Reading is most accurate for English and Roman Urdu notices; Urdu script is often misread (see `eval/ocr_results.md`).
