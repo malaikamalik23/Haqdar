@@ -123,6 +123,9 @@ jobs:
           curl -fsS http://127.0.0.1:8000/health
           echo
           curl -sI http://127.0.0.1:8000/health | grep -i "x-content-type-options: nosniff"
+          curl -fsS -X POST http://127.0.0.1:8000/ask -H "content-type: application/json" \
+            -d '{"question":"hello","lang":"en"}' > /dev/null
+          echo "ask endpoint answers"
           test "$(docker exec haqdar-api id -u)" = "10001"
           echo "container runs as user 10001"
       - name: Show container logs

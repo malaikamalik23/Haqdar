@@ -10,6 +10,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 RUN groupadd --system --gid 10001 app \
     && useradd --system --uid 10001 --gid app --no-create-home --shell /usr/sbin/nologin app
 
+# This image holds only the API shell, not the AI modules in backend/ai, so it answers with the
+# built-in sample replies. Run the API directly (see the README) for real answers.
+ENV HAQDAR_AI_MODE=mock
+
 WORKDIR /app
 
 COPY backend/requirements.txt .
@@ -17,7 +21,7 @@ COPY backend/requirements.txt .
 # bundles libraries with known vulnerabilities. Remove it after the install.
 RUN pip install --no-cache-dir -r requirements.txt \
     && pip uninstall -y setuptools wheel
-    
+
 # Code is copied as root and stays read-only for the app user.
 # Add more folders here when they are needed at runtime (for example backend/ai and packs).
 COPY backend/main.py ./
