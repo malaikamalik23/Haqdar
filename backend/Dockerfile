@@ -13,8 +13,11 @@ RUN groupadd --system --gid 10001 app \
 WORKDIR /app
 
 COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
+# The API does not need build tools at run time, and the setuptools that ships with the base image
+# bundles libraries with known vulnerabilities. Remove it after the install.
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip uninstall -y setuptools wheel
+    
 # Code is copied as root and stays read-only for the app user.
 # Add more folders here when they are needed at runtime (for example backend/ai and packs).
 COPY backend/main.py ./
