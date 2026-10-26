@@ -1,4 +1,5 @@
 import os
+from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from typing import Literal
 
@@ -97,7 +98,20 @@ STEPS = [
 
 def create_app(settings=None):
     s = settings or Settings.from_env()
+    real = s.ai_mode == "real"
+
+    @asynccontextmanager
+    async def lifespan(app):
+        if real:
+            # Load the search model now, so the first question is fast and a broken install
+            # fails when the server starts, not when someone asks a question.
+            from ai import retrieval
+
+            retrieval.get_retriever()
+        yield
+
     app = FastAPI(
+        lifespan=lifespan,
         title="Haqdar API" if s.ai_mode == "real" else "Haqdar API (mock)",
         docs_url="/docs" if s.docs_enabled else None,
         redoc_url=None,
@@ -125,8 +139,6 @@ def create_app(settings=None):
     @app.get("/health")
     def health():
         return {"status": "ok"}
-
-    real = s.ai_mode == "real"
 
     def service():
         # Imported on first use, so importing main.py (tests, mock mode) needs no AI libraries.

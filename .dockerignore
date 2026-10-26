@@ -15,3 +15,5 @@ docs
 eval
 tools
 backend/tests
+backend/ai/test_*.py
+backend/ai/requirements.txt
