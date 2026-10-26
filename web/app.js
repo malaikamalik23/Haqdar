@@ -30,6 +30,8 @@ const I18N = {
     fieldAmount: "رقم",
     fieldDemand: "مطالبہ",
     stepsHeading: "اگلے اقدامات",
+    docsHeading: "درکار کاغذات",
+    topicsHeading: "ہم ان موضوعات میں مدد کر سکتے ہیں",
     sourcesHeading: "ماخذ",
     confidence: "اعتماد",
     legalNote: "یہ معلومات ہیں، قانونی مشورہ نہیں۔ اہم معاملات میں متعلقہ دفتر سے رابطہ کریں۔",
@@ -63,6 +65,8 @@ const I18N = {
     fieldAmount: "Amount",
     fieldDemand: "Demand",
     stepsHeading: "What to do next",
+    docsHeading: "Documents you will need",
+    topicsHeading: "Topics we can help with",
     sourcesHeading: "Sources",
     confidence: "Confidence",
     legalNote: "This is information, not legal advice. For important matters, contact the relevant office.",
@@ -79,10 +83,10 @@ const I18N = {
 const EXAMPLES = {
   ur: {
     ask: [
-      "بجلی کا بل زیادہ آیا ہے، کیا کروں؟",
-      "ایف بی آر کا نوٹس ملا ہے، اب کیا کروں؟",
-      "شناختی کارڈ کی تجدید کیسے کروائیں؟",
-      "کرایہ نامے میں کیا لکھنا ضروری ہے؟",
+      "میرا میٹر تیز چل رہا ہے، کیا کروں؟",
+      "ایف بی آر کا نوٹس ملا ہے، کیا کروں؟",
+      "شناختی کارڈ کی تجدید کیسے کروں؟",
+      "مالک مکان کرایہ نہیں لے رہا، کیا کروں؟",
     ],
     sample: {
       label: "نمونہ نوٹس آزمائیں",
@@ -91,10 +95,10 @@ const EXAMPLES = {
   },
   en: {
     ask: [
-      "My electricity bill is too high. What should I do?",
-      "I received a tax notice from FBR. What now?",
-      "How do I renew my CNIC?",
-      "What must a rent agreement include?",
+      "My electricity meter is running fast, what should I do?",
+      "I got a notice from FBR, how do I reply to it?",
+      "How do I renew my CNIC online?",
+      "Does my rent agreement in Islamabad need to be in writing?",
     ],
     sample: {
       label: "Try a sample notice",
@@ -350,7 +354,8 @@ async function send() {
   const { text } = pending;
   try {
     const path = MODE === "ask" ? "/ask" : "/analyze";
-    const body = MODE === "ask" ? { question: text, lang } : { text, lang };
+    // "en" makes the API return both Urdu and English, so switching language needs no new request.
+    const body = MODE === "ask" ? { question: text, lang: "en" } : { text, lang: "en" };
     const res = await fetch(API + path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -403,7 +408,7 @@ function renderVerdict(box, verdict, copy, animate) {
   box.append(el("p", t("verdictNote"), "muted"));
 }
 
-function renderFields(box, fields) {
+function renderFields(box, fields, fieldsUr) {
   if (!fields) return;
   const rows = Object.keys(FIELD_KEYS).filter((k) => fields[k]);
   if (rows.length === 0) return;
@@ -411,7 +416,8 @@ function renderFields(box, fields) {
   const dl = el("dl", null, "fields");
   for (const k of rows) {
     dl.append(el("dt", t(FIELD_KEYS[k])));
-    dl.append(autoDir(el("dd", fields[k])));
+    const urdu = lang === "ur" && fieldsUr ? fieldsUr[k + "_ur"] : "";
+    dl.append(autoDir(el("dd", urdu || fields[k])));
   }
   box.append(dl);
 }
@@ -436,6 +442,29 @@ function renderSteps(box, steps, sources, flags, copy) {
     copy.push(`${idx + 1}. ${picked.text}`);
   });
   box.append(ol);
+}
+
+function renderDocuments(box, docs, copy) {
+  if (!Array.isArray(docs) || docs.length === 0) return;
+  box.append(el("h2", t("docsHeading")));
+  copy.push(t("docsHeading") + ":");
+  const ul = el("ul", null, "checks");
+  for (const d of docs) {
+    ul.append(autoDir(el("li", d)));
+    copy.push("- " + d);
+  }
+  box.append(ul);
+}
+
+function renderTopics(box, procs) {
+  if (!Array.isArray(procs) || procs.length === 0) return;
+  box.append(el("h2", t("topicsHeading")));
+  const ul = el("ul", null, "checks");
+  for (const p of procs) {
+    const title = lang === "en" ? p.title_en || p.title_ur : p.title_ur || p.title_en;
+    ul.append(autoDir(el("li", title)));
+  }
+  box.append(ul);
 }
 
 function renderSources(box, sources, copy) {
@@ -508,7 +537,7 @@ function renderResult({ data, asked }, fresh) {
 
   if (MODE === "notice") {
     renderVerdict(box, data.verdict, copy, fresh);
-    renderFields(box, data.fields);
+    renderFields(box, data.fields, data.fields_ur);
   }
 
   const lead = pick(data, MODE === "ask" ? "answer" : "explanation");
@@ -518,12 +547,14 @@ function renderResult({ data, asked }, fresh) {
     a.append(el("strong", t("abstainTitle")));
     a.append(el("span", lead.text || t("defaultAbstain")));
     box.append(a);
+    renderTopics(box, data.available_procedures);
   } else {
     if (lead.text) {
       box.append(autoDir(el("p", lead.text, "lead")));
       copy.push(lead.text);
     }
     renderSteps(box, data.steps, sources, flags, copy);
+    renderDocuments(box, data.documents_needed, copy);
     renderSources(box, sources, copy);
     if (typeof data.confidence === "number") {
       box.append(el("p", `${t("confidence")}: ${Math.round(data.confidence * 100)}%`, "muted"));

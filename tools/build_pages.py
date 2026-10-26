@@ -153,9 +153,9 @@ home_body = f'''
         <p class="sub">{bi("شروع کرنے کے لیے کوئی موضوع چنیں۔", "Pick a topic to start.")}</p>
         <ul class="topics">
           {topic("electricity", "bolt", "بجلی کے بل پر اعتراض", "Disputing an electricity bill", "بل زیادہ آئے تو کیا کریں", "What to do when the bill is too high")}
-          {topic("fbr", "notice", "ایف بی آر کا نوٹس", "An FBR notice", "نوٹس ملنے پر اگلے اقدامات", "Next steps after you receive one")}
-          {topic("cnic", "card", "شناختی کارڈ کی خدمات", "CNIC services", "تجدید اور درستی کا طریقہ", "Renewal and corrections")}
-          {topic("rent", "home", "کرایہ نامہ", "Rent agreements", "اس میں کیا ہونا چاہیے", "What one should include")}
+          {topic("fbr", "notice", "ایف بی آر کا ٹیکس ریٹرن نوٹس", "An FBR tax-return notice", "نوٹس کا جواب کیسے دیں", "How to reply to it")}
+          {topic("cnic", "card", "شناختی کارڈ کی تجدید", "Renewing your CNIC", "تجدید کا طریقہ", "How to renew it")}
+          {topic("rent", "home", "کرایہ داری (اسلام آباد)", "Renting (Islamabad)", "کرایہ داروں اور مالکان کے لیے بنیادی باتیں", "Basics for tenants and landlords")}
         </ul>
       </div>
     </section>
@@ -349,8 +349,8 @@ about_body = f'''
       <ul class="checks">
         <li class="caveat"><div data-l="ur">یہ معلومات ہیں، قانونی مشورہ نہیں۔</div>
             <div data-l="en">It gives information, not legal advice.</div></li>
-        <li class="caveat"><div data-l="ur">یہ صرف انہی موضوعات کا جواب دیتا ہے جو سرکاری ماخذ سے جانچ کر لکھے گئے ہیں۔ ہم بجلی کے بل پر اعتراض، ایف بی آر کے نوٹس، شناختی کارڈ کی خدمات اور کرایہ نامے سے شروع کر رہے ہیں۔ باقی سوالوں پر حقدار صاف بتاتا ہے کہ تصدیق نہیں ہو سکی۔</div>
-            <div data-l="en">It only answers topics that have been written up and checked against official sources. We are starting with electricity bill disputes, FBR notices, CNIC services and rent agreements. For anything else, Haqdar says plainly that it couldn't verify an answer.</div></li>
+        <li class="caveat"><div data-l="ur">یہ صرف انہی موضوعات کا جواب دیتا ہے جو سرکاری ماخذ سے جانچ کر لکھے گئے ہیں۔ فی الحال یہ بجلی کے بل پر اعتراض، ایف بی آر کے ٹیکس ریٹرن نوٹس کا جواب، شناختی کارڈ کی تجدید اور اسلام آباد میں کرایہ داری کے بارے میں بتاتا ہے۔ باقی سوالوں پر حقدار صاف بتاتا ہے کہ تصدیق نہیں ہو سکی۔</div>
+            <div data-l="en">It only answers topics that have been written up and checked against official sources. Right now it covers electricity bill disputes, replying to an FBR tax-return notice, renewing a CNIC, and renting in Islamabad. For anything else, Haqdar says plainly that it couldn't verify an answer.</div></li>
         <li class="caveat"><div data-l="ur">جعلی نوٹس کی جانچ صرف انتباہی علامتیں دیکھتی ہے۔ «ممکنہ طور پر اصلی» کا مطلب تصدیق نہیں، ادائیگی سے پہلے متعلقہ دفتر سے رابطہ کریں۔</div>
             <div data-l="en">The fake-notice check only looks for warning signs. "Possibly genuine" is not a confirmation: contact the office before you pay.</div></li>
         <li class="caveat"><div data-l="ur">قوانین اور ویب سائٹس بدلتی رہتی ہیں۔ ماخذ کا لنک کھول کر خود تصدیق کریں۔</div>
