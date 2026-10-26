@@ -11,12 +11,12 @@
 
 | | Result |
 |---|:---:|
-| ✅ Correct answers | **25 / 25** (100%) |
-| 📎 Answers with a correct official source | **25 / 25** (100%) |
+| ✅ Correct answers | **41 / 42** (98%) |
+| 📎 Answers with a correct official source | **41 / 41** (100%) |
 | 🛑 Out-of-scope questions safely refused | **9 / 10** (90%) |
-| ⚠️ Real questions wrongly refused | **0 / 25** (0%) |
+| ⚠️ Real questions wrongly refused | **1 / 42** (2%) |
 
-Tested in **Urdu**, **Roman Urdu** and **English** on 35 questions. See [Limitations](#limitations) before reading too much into these numbers.
+Tested in **Urdu**, **Roman Urdu** and **English** on 52 questions across 4 procedure packs. See [Limitations](#limitations) before reading too much into these numbers.
 
 ---
 
@@ -24,7 +24,7 @@ Tested in **Urdu**, **Roman Urdu** and **English** on 35 questions. See [Limitat
 
 ```mermaid
 flowchart TD
-    Q["User question<br/>Urdu · Roman Urdu · English"] --> R["<b>1. Search the packs</b><br/>meaning + keywords"]
+    Q["User question<br/>Urdu · Roman Urdu · English"] --> R["<b>1. Search the packs</b><br/>meaning + keywords<br/>(packs about other places/services are skipped)"]
     R --> C{"Strong enough match?<br/>score ≥ 0.25"}
     C -- No --> A["🛑 <b>Refuse</b><br/>'We cannot verify this.<br/>Please contact the office.'"]
     C -- Yes --> S["<b>2. Pick the steps</b><br/>from the best-matching pack"]
@@ -44,6 +44,7 @@ flowchart TD
 | **K2 · Search** | Finds the right steps by meaning *and* by keywords (keywords help with Roman Urdu) |
 | **K3 · Answers** | Builds the answer only from verified steps, or refuses |
 | **K5 · Scam check** | Spots pressure tactics: urgency, threats, Easypaisa/JazzCash requests, OTP/PIN requests, fake prizes |
+| **K6 · Letters** | Fills a complaint or reply letter in Urdu or English, with a printable right-to-left page. Built locally; personal details are never logged |
 | **K7 · Evaluation** | Measures everything on this page |
 
 ---
@@ -54,6 +55,8 @@ flowchart TD
 |---|:---:|---|
 | ⚡ Disputing an electricity bill | 8 | NEPRA Consumer Service Manual 2020 |
 | 🧾 Replying to an FBR tax notice | 7 | FBR IRIS FAQ, FBR Taxpayer's Facilitation Guide |
+| 🪪 Renewing a CNIC (Pak-ID app) | 10 | NADRA "Renew your card" user guidelines |
+| 🏠 Renting in Islamabad | 11 | Islamabad Rent Restriction Ordinance 2001 |
 
 Every quote was checked **word for word** in the official PDF before it was added.
 
@@ -63,22 +66,22 @@ Every quote was checked **word for word** in the official PDF before it was adde
 
 | Language | Correct answers | Safely refused |
 |---|:---:|:---:|
-| Urdu | 8 / 8 | 2 / 2 |
-| Roman Urdu | 10 / 10 | 5 / 5 |
-| English | 7 / 7 | 2 / 3 |
+| Urdu | 12 / 12 | 1 / 1 |
+| Roman Urdu | 17 / 18 | 5 / 5 |
+| English | 12 / 12 | 3 / 4 |
 
-**Confidence:** correct answers average **0.54**; out-of-scope questions average **0.11**. The clear gap is what makes refusing safe.
+**Confidence:** correct answers average **0.54**; out-of-scope questions average **0.12**. The clear gap is what makes refusing safe.
 
 <details>
 <summary><b>How we chose the 0.25 threshold</b> (click to open)</summary>
 
 | Threshold | Correct answers | Safely refused |
 |:---:|:---:|:---:|
-| 0.15 | 100% | 60% |
-| 0.20 | 100% | 80% |
-| **0.25** | **100%** | **90%** |
-| 0.30 | 92% | 90% |
-| 0.35 | 84% | 100% |
+| 0.15 | 98% | 80% |
+| 0.20 | 98% | 80% |
+| **0.25** | **98%** | **90%** |
+| 0.30 | 90% | 90% |
+| 0.35 | 86% | 100% |
 
 Higher refuses real questions. Lower answers questions it should not. 0.25 is the best balance.
 
@@ -87,10 +90,10 @@ Higher refuses real questions. Lower answers questions it should not. 0.25 is th
 <details>
 <summary><b>What the test set contains</b> (click to open)</summary>
 
-- **25 answerable questions:** 8 Urdu, 10 Roman Urdu, 7 English
-- **10 out-of-scope questions:** passport, CNIC renewal, weather, a poem...
-- **Trick questions on purpose:** a *gas* bill question (sounds like electricity) and a *tax rate* question (sounds like FBR)
-- **4 held-out questions:** written *after* tuning, to make sure we did not tune to the test
+- **42 answerable questions:** 12 Urdu, 18 Roman Urdu, 12 English, across all 4 packs
+- **10 out-of-scope questions:** passport, weather, a poem, gas and water bills...
+- **Trick questions on purpose:** a *gas* bill (sounds like electricity), a *tax rate* question (sounds like FBR), *passport on Pak-ID* (same app as CNIC), and *rent in Lahore* (different law from Islamabad)
+- **6 held-out questions:** written *after* tuning, to make sure we did not tune to the test
 
 </details>
 
@@ -102,15 +105,18 @@ Higher refuses real questions. Lower answers questions it should not. 0.25 is th
 |---|---|---|
 | 1 | *"meter check karwane mein kitne din lagte hain"* was wrongly refused | Added Roman Urdu keywords to each step |
 | 2 | *"gas ka bill zyada aya hai"* got electricity steps | Added a scope guard: packs skip questions about other services |
-| 3 | *"How much income tax do I pay on my salary?"* got FBR filing steps instead of a refusal | **Kept as a known failure.** Patching it would mean tuning to the test. Future work: check the question's intent first |
+| 3 | Roman Urdu rent questions were refused. The search only gave keyword scores to the top 20 steps by meaning, and the meaning model scores Roman Urdu near 0 | **Bug fixed:** every step is now scored. Spelling variants match on their first 5 letters (*barha* / *barhana*), and a strong keyword match can stand on its own |
+| 4 | *"How much income tax do I pay on my salary?"* got FBR filing steps instead of a refusal | **Kept as a known failure.** Patching it would mean tuning to the test. Future work: check the question's intent first |
+| 5 | *"kya malik makan bina wajah nikal sakta hai"* is refused (score 0.225) | **Kept as a known failure.** It is the safe kind: Haqdar sends the user to the office instead of guessing |
 
 ---
 
 ## Limitations
 
 - 🔬 **Small test set** (35 questions) written by our own team. Real-world results will be lower.
-- 📦 **Only two packs.** Everything else is refused: safe, but limited.
-- 📅 **Sources can go out of date.** NEPRA published a 2025 manual; we left out FBR penalty amounts because our only source was from 2014.
+- 📦 **Only four packs.** Everything else is refused: safe, but limited.
+- 📍 **The rent pack covers Islamabad only.** Punjab, Sindh, KP and Balochistan have different rent laws, so questions naming them are refused.
+- 📅 **Sources can go out of date.** NEPRA published a 2025 manual; we left out FBR penalty amounts (our only source was from 2014) and NADRA fees (they change often).
 - 🧪 **The scam check** learned from 40 made-up examples. It is one warning signal, not a verdict.
 - ⚖️ **Not legal advice.** For anything serious, Haqdar points users to the official office.
 
