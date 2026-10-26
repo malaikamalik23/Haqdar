@@ -4,7 +4,7 @@ PATTERNS = [
     ("IBAN",  re.compile(r"\bPK\d{2}[A-Z]{4}\d{16}\b")),
     ("EMAIL", re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")),
     ("CNIC",  re.compile(r"\b\d{5}-?\d{7}-?\d\b")),
-    ("PHONE", re.compile(r"(?<!\d)(?:\+92|0092|0)[-\s]?3\d{2}[-\s]?\d{7}(?!\d)")),
+    ("PHONE", re.compile(r"(?<!\d)(?:\+92|0092|[0۰٠])[-\s]?[3۳٣]\d{2}[-\s]?\d{7}(?!\d)")),  # also Urdu and Arabic-Indic digits
 ]
 
 # Reference-type numbers are redacted only when a label comes right before them,

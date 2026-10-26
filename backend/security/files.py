@@ -1,6 +1,6 @@
 import io
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 MAX_BYTES = 8 * 1024 * 1024
 SIGNATURES = {b"\xff\xd8\xff": "jpeg", b"\x89PNG\r\n\x1a\n": "png", b"%PDF-": "pdf"}
@@ -29,6 +29,7 @@ def validate_upload(data: bytes, filename: str = "") -> bytes:
     try:
         img = Image.open(io.BytesIO(data))
         img.load()
+        img = ImageOps.exif_transpose(img)  # apply the camera's rotation before the metadata is dropped
         buf = io.BytesIO()
         img.convert("RGB").save(buf, format="PNG")
         return buf.getvalue()
