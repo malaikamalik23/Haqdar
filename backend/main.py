@@ -34,6 +34,10 @@ class Settings:
     trust_proxy: bool = False
     docs_enabled: bool = True
     hsts: bool = False
+    # "real" uses the AI modules in backend/ai. "mock" returns fixed sample answers: fast,
+    # needs no AI model, and is what tests and early front-end work use. Settings() made
+    # directly in code defaults to mock; the running server (from_env) defaults to real.
+    ai_mode: str = "mock"
 
     @classmethod
     def from_env(cls):
@@ -48,6 +52,7 @@ class Settings:
             trust_proxy=_env_flag("HAQDAR_TRUST_PROXY"),
             docs_enabled=not production,
             hsts=_env_flag("HAQDAR_HSTS"),
+            ai_mode="mock" if os.environ.get("HAQDAR_AI_MODE", "real").strip().lower() == "mock" else "real",
         )
 
 
@@ -93,7 +98,7 @@ STEPS = [
 def create_app(settings=None):
     s = settings or Settings.from_env()
     app = FastAPI(
-        title="Haqdar API (mock)",
+        title="Haqdar API" if s.ai_mode == "real" else "Haqdar API (mock)",
         docs_url="/docs" if s.docs_enabled else None,
         redoc_url=None,
         openapi_url="/openapi.json" if s.docs_enabled else None,
@@ -121,8 +126,17 @@ def create_app(settings=None):
     def health():
         return {"status": "ok"}
 
+    real = s.ai_mode == "real"
+
+    def service():
+        # Imported on first use, so importing main.py (tests, mock mode) needs no AI libraries.
+        from ai import service as svc
+        return svc
+
     @app.get("/procedures")
     def procedures():
+        if real:
+            return service().procedures()
         return [
             {
                 "id": "electricity-bill-dispute",
@@ -133,6 +147,8 @@ def create_app(settings=None):
 
     @app.post("/ask")
     def ask(req: AskRequest):
+        if real:
+            return service().ask(req.question, req.lang)
         return {
             "answer_ur": "یہ نمونہ جواب ہے۔",
             "answer_en": "This is a sample answer.",
@@ -144,6 +160,8 @@ def create_app(settings=None):
 
     @app.post("/analyze")
     def analyze(req: AnalyzeRequest):
+        if real:
+            return service().analyze(req.text, req.lang)
         return {
             "fields": {"sender": "Demo Dept", "date": "", "deadline": "", "amount": "", "demand": ""},
             "explanation_ur": "یہ نمونہ وضاحت ہے۔",
@@ -156,6 +174,11 @@ def create_app(settings=None):
 
     @app.post("/letter")
     def letter(req: LetterRequest):
+        if real:
+            try:
+                return service().letter(req.pack_id, req.fields, req.lang)
+            except LookupError:  # ai.service.NotFound
+                return JSONResponse(status_code=404, content={"detail": "Unknown procedure"})
         if req.lang == "en":
             return {"letter_text": "Sample letter"}
         return {"letter_text": "نمونہ خط"}

@@ -1,0 +1,143 @@
+# Pack: Renting a house or shop in Islamabad (tenant and landlord basics)
+# Source: The Islamabad Rent Restriction Ordinance, 2001 (official text on pakistancode.gov.pk)
+# SCOPE: Islamabad Capital Territory ONLY. Punjab, Sindh, KP and Balochistan have different
+# rent laws, so questions naming those places are skipped (exclude_keywords).
+# REVIEW NOTE: quotes must be checked word-for-word against the PDF (Ctrl+F).
+# This is general information, not legal advice.
+
+id: rent_islamabad
+title_ur: "کرایہ داری کے بنیادی قوانین (اسلام آباد)"
+title_en: "Renting basics for tenants and landlords (Islamabad)"
+
+exclude_keywords: [lahore, karachi, rawalpindi, peshawar, quetta, multan, faisalabad, punjab, sindh, kpk, balochistan, لاہور, کراچی, راولپنڈی, پشاور, پنجاب, سندھ, bijli, gas, tax, fbr, cnic]
+keywords: [rent, kiraya, kirayadar, kirayedar, tenant, landlord, malik, makan, ghar, house, shop, dukan, agreement, muahida, tenancy, evict, eviction, nikalna, islamabad, کرایہ, کرایہ دار, مالک مکان, معاہدہ, اسلام آباد]
+
+office: "اسلام آباد کا رینٹ کنٹرولر (Rent Controller)؛ سنجیدہ معاملات میں وکیل یا لیگل ایڈ سے مشورہ کریں"
+
+documents_needed:
+  - "تحریری کرایہ نامہ (Written tenancy agreement)"
+  - "کرایہ کی رسیدیں یا کراسڈ چیک کا ریکارڈ (Rent receipts or crossed-cheque record)"
+  - "مالک مکان اور کرایہ دار کے شناختی کارڈ (CNICs of landlord and tenant)"
+
+steps:
+  - id: step_1
+    text_ur: "مکان یا دکان صرف تحریری کرایہ نامے کے ذریعے ہی کرائے پر دی جا سکتی ہے۔ زبانی معاہدے پر انحصار نہ کریں۔"
+    text_en: "A house or shop may only be let out through a written tenancy agreement. Do not rely on a verbal deal."
+    source_id: src_written
+    keywords: [agreement, muahida, likhit, written, banta, banwana, kaise, zaroori]
+
+  - id: step_2
+    text_ur: "مالک مکان کو دستخط کے تیس دن کے اندر کرایہ نامہ رینٹ کنٹرولر کے سامنے پیش کرنا ہوتا ہے۔"
+    text_en: "The landlord must present the tenancy agreement before the Rent Controller within thirty days of signing it."
+    source_id: src_present_controller
+    keywords: [register, registration, controller, din, thirty, tees, jama]
+
+  - id: step_3
+    text_ur: "کرایہ اور تمام ادائیگیاں کراسڈ چیک سے کریں، یا ہر ادائیگی کی باقاعدہ رسید لیں۔"
+    text_en: "Pay rent and all other amounts by crossed cheque, or get a proper receipt for every payment."
+    source_id: src_receipts
+    keywords: [receipt, raseed, cheque, check, payment, ada, cash]
+
+  - id: step_4
+    text_ur: "اگر کوئی اور معاہدہ نہ ہو تو کرایہ ہر سال خود بخود دس فیصد بڑھ جاتا ہے۔"
+    text_en: "Unless agreed otherwise, rent increases automatically by ten percent every year."
+    source_id: src_increase
+    keywords: [increase, barhana, barhega, ziada, zyada, saal, percent, fisad, kitna]
+
+  - id: step_5
+    text_ur: "مالک مکان اور کرایہ دار آپس میں طے کر سکتے ہیں کہ کرایہ بڑھے یا نہ بڑھے۔"
+    text_en: "The landlord and tenant can agree between themselves whether or not the rent increases."
+    source_id: src_increase_agree
+    keywords: [increase, agree, tay, mutfiq, barhana]
+
+  - id: step_6
+    text_ur: "مالک مکان کرائے کے علاوہ کوئی جرمانہ، پگڑی یا اضافی رقم نہیں مانگ سکتا۔"
+    text_en: "The landlord cannot demand any fine, premium (pagri) or similar sum on top of the rent."
+    source_id: src_no_premium
+    keywords: [pagri, premium, extra, izafi, fine, jurmana, paise, mang]
+
+  - id: step_7
+    text_ur: "کرایہ دار کو قانون میں دیے گئے طریقے کے بغیر بے دخل نہیں کیا جا سکتا۔"
+    text_en: "A tenant cannot be evicted except in the way the law allows."
+    source_id: src_eviction_law
+    keywords: [evict, eviction, nikal, nikalna, nikaal, bedakhal, khali, karwana, zabardasti]
+
+  - id: step_8
+    text_ur: "اگر کرایہ دار معاہدے میں طے شدہ وقت کے بعد پندرہ دن کے اندر کرایہ ادا نہ کرے تو یہ بے دخلی کی ایک وجہ بن سکتی ہے۔"
+    text_en: "If the tenant does not pay rent within fifteen days after the time fixed in the agreement, this can be a ground for eviction."
+    source_id: src_nonpayment
+    keywords: [late, der, nahi, diya, payment, pandrah, fifteen, din]
+
+  - id: step_9
+    text_ur: "اگر مالک مکان مرمت نہ کرائے تو رینٹ کنٹرولر کرایہ دار کو مرمت کرانے اور خرچ کرائے سے کاٹنے کی اجازت دے سکتا ہے (سال میں زیادہ سے زیادہ دو ماہ کا کرایہ)۔"
+    text_en: "If the landlord does not carry out repairs, the Rent Controller can allow the tenant to repair and deduct the cost from the rent (up to two months' rent a year)."
+    source_id: src_repairs
+    keywords: [repair, marammat, kharab, theek, fix, leak]
+
+  - id: step_10
+    text_ur: "اگر مالک مکان کرایہ لینے سے انکار کرے تو کرایہ رینٹ کنٹرولر کے دفتر میں جمع کروائیں؛ اسے ادا شدہ سمجھا جاتا ہے۔"
+    text_en: "If the landlord refuses to take rent, deposit it in the Rent Controller's office; it then counts as properly paid."
+    source_id: src_deposit
+    keywords: [refuse, inkar, nahi, le, raha, deposit, jama, controller]
+
+  - id: step_11
+    text_ur: "کرایہ داری سے متعلق درخواست اسی علاقے کے رینٹ کنٹرولر کے پاس دائر کی جاتی ہے جہاں عمارت واقع ہے۔"
+    text_en: "Applications about a tenancy are filed before the Rent Controller of the area where the building is located."
+    source_id: src_where_file
+    keywords: [complaint, shikayat, case, kahan, controller, court, adalat, file]
+
+sources:
+  - id: src_written
+    title: "Islamabad Rent Restriction Ordinance 2001, section 5(1)"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "A landlord shall not let out a premises to a tenant except by a tenancy agreement in writing."
+
+  - id: src_present_controller
+    title: "Islamabad Rent Restriction Ordinance 2001, section 5(2)"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "A landlord shall present the tenancy agreement before the Controller within thirty days of signing the agreement."
+
+  - id: src_receipts
+    title: "Islamabad Rent Restriction Ordinance 2001, section 8(2)"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "with proper receipt or acknowledgment"
+
+  - id: src_increase
+    title: "Islamabad Rent Restriction Ordinance 2001, section 10(1)"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "by ten percent of the rent already being paid by the tenant"
+
+  - id: src_increase_agree
+    title: "Islamabad Rent Restriction Ordinance 2001, section 10(2)"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "if a landlord and a tenant agree to increase or not to increase rent"
+
+  - id: src_no_premium
+    title: "Islamabad Rent Restriction Ordinance 2001, section 12"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "require the payment of any fine, premium or any other like sum in addition to the rent"
+
+  - id: src_eviction_law
+    title: "Islamabad Rent Restriction Ordinance 2001, section 17(1)"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "shall not be evicted therefrom"
+
+  - id: src_nonpayment
+    title: "Islamabad Rent Restriction Ordinance 2001, section 17(2)(i)"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "within fifteen days after the expiry of the time fixed in the agreement of tenancy"
+
+  - id: src_repairs
+    title: "Islamabad Rent Restriction Ordinance 2001, section 15"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "deducted from the rent payable by him"
+
+  - id: src_deposit
+    title: "Islamabad Rent Restriction Ordinance 2001, section 17(2), explanation"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "deposited in the office of the Controller shall be deemed to have been duly tendered"
+
+  - id: src_where_file
+    title: "Islamabad Rent Restriction Ordinance 2001, section 7(3)"
+    url: "https://pakistancode.gov.pk/pdffiles/administratorf55c8364472e13dc098d52c71def1f58.pdf"
+    quote: "shall be filed before the Controller having jurisdiction over the area where the building"

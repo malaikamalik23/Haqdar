@@ -7,13 +7,15 @@ Each chunk carries pack_id, step_id and source_id so every answer can be
 traced back to an official source.
 """
 
+import os
 from pathlib import Path
 from urllib.parse import urlparse
 
 import yaml
 
-# Repo root is two levels above this file: backend/ai/pack_loader.py
-PACKS_DIR = Path(__file__).resolve().parents[2] / "packs"
+# Default: repo root is two levels above this file (backend/ai/pack_loader.py).
+# In Docker the packs live elsewhere, so HAQDAR_PACKS_DIR can point to them.
+PACKS_DIR = Path(os.getenv("HAQDAR_PACKS_DIR") or Path(__file__).resolve().parents[2] / "packs")
 
 # Only these official domains may be used as sources.
 # A source URL is allowed if its host equals one of these or ends with "." + one of these.

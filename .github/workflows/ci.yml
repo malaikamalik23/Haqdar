@@ -23,12 +23,18 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-          cache-dependency-path: backend/requirements-dev.txt
+          cache-dependency-path: |
+            backend/requirements-dev.txt
+            backend/ai/requirements.txt
+      - name: Install Tesseract OCR with Urdu (for the OCR tests)
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-urd
       - name: Install dependencies
-        run: pip install -r backend/requirements-dev.txt bandit pip-audit
-      - name: Unit tests
+        # AI libraries for the fast AI tests. sentence-transformers (and torch) are NOT installed:
+        # the fast tests use a small fake embedder, so no AI model is downloaded in CI.
+        run: pip install -r backend/requirements-dev.txt bandit pip-audit faiss-cpu numpy pyyaml jinja2 scikit-learn pytesseract
+      - name: Unit tests (API, security and AI modules)
         working-directory: backend
-        run: pytest -q
+        run: pytest -q tests ai
       - name: Bandit (static security scan, medium severity and above)
         run: bandit -r backend --exclude backend/tests,backend/.venv -ll
       - name: Dependency audit (known vulnerabilities)
