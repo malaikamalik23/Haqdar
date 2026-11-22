@@ -1,6 +1,6 @@
 # What the API needs at run time inside the Docker image (owner: Malaika Khan's modules).
 # The full list for development and tests is requirements.txt in this folder.
-pyyaml>=6.0
+pyyaml>=6.0.3
 numpy>=1.24
 faiss-cpu>=1.8
 sentence-transformers>=3.0
