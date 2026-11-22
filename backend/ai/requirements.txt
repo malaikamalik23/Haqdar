@@ -1,6 +1,6 @@
 # Dependencies for backend/ai (owner: Malaika Khan)
 pyyaml>=6.0
-pytest>=8.0
+pytest>=9.1.1
 numpy>=1.24
 faiss-cpu>=1.8
 sentence-transformers>=3.0
